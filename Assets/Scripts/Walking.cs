@@ -61,6 +61,7 @@ public class Walking : MonoBehaviour
     void PlayStepSound()
     {
         int index = Randomizer.Next(0, StepAudio.Length);
+        Debug.Log($"Step: {index}");
         StepSource.PlayOneShot(StepAudio[index]);
     }
 
