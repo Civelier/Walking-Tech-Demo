@@ -28,7 +28,7 @@ public class HealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SetSize(WhiteFill, RectTransform.Edge.Left, Stamina * (1 - Health));
-        SetSize(RedFill, RectTransform.Edge.Right, Health);
+        SetSize(WhiteFill, RectTransform.Edge.Left, Stamina * Health);
+        SetSize(RedFill, RectTransform.Edge.Right, 1 - Health);
     }
 }

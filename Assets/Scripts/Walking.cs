@@ -19,6 +19,8 @@ public class Walking : MonoBehaviour
     public AudioClip[] StepAudio;
     public AudioSource StepSource;
     public System.Random Randomizer;
+    public HealthBar Bar;
+    public CapsuleCollider Collider;
 
     public bool IsRunning;
     public bool IsMoving;
@@ -32,6 +34,44 @@ public class Walking : MonoBehaviour
     public float RunSpeed = 5.0f;
     public float Sensitivity = 5.0f;
     public float AnimationTime = 0.0f;
+    public float Stamina;
+    public float Health;
+
+    public float CurrentMaxStamina => Health / MaxHealth * MaxStamina;
+
+    public float MaxHealth = 10;
+    /// <summary>
+    /// Seconds
+    /// </summary>
+    public float MaxStamina = 10;
+    /// <summary>
+    /// Seconds
+    /// </summary>
+    public float StaminaCooldown = 3;
+    public float StaminaUpSpeed = 1;
+
+    float _time_since_last_run = 0;
+    void RegainStamina()
+    {
+        if (!IsRunning)
+        {
+            _time_since_last_run += Time.deltaTime;
+
+            if (_time_since_last_run >= StaminaCooldown)
+            {
+                Stamina = Mathf.MoveTowards(Stamina, CurrentMaxStamina, Time.deltaTime * StaminaUpSpeed);
+            }
+        }
+        else
+        {
+            _time_since_last_run = 0;
+            Stamina = Mathf.MoveTowards(Stamina, 0, Time.deltaTime);
+            if (Stamina <= 0) IsRunning = false;
+        }
+
+        Bar.Stamina = Stamina / CurrentMaxStamina;
+        Bar.Health = Health / MaxHealth;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -42,8 +82,10 @@ public class Walking : MonoBehaviour
         if (Animator == null) Animator = GetComponent<Animator>();
         if (Input == null) Input = GetComponent<PlayerInput>();
         Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Confined;
         Randomizer = new System.Random();
+        Health = MaxHealth;
+        Stamina = MaxStamina;
     }
 
     float XBoundaries(float y)
@@ -58,6 +100,12 @@ public class Walking : MonoBehaviour
         }
     }
 
+    void HurtHeal()
+    {
+        if (Input.actions["Hurt"].triggered) Health = Mathf.MoveTowards(Health, 0, 0.5f);
+        if (Input.actions["Heal"].triggered) Health = Mathf.MoveTowards(Health, MaxHealth, 0.5f);
+    }
+
     void PlayStepSound()
     {
         int index = Randomizer.Next(0, StepAudio.Length);
@@ -68,6 +116,8 @@ public class Walking : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HurtHeal();
+
         if (_step) _firstStepFrame = false;
         if (Step)
         {
@@ -94,9 +144,11 @@ public class Walking : MonoBehaviour
 
         IsRunning = Input.actions["Run"].ReadValue<float>() == 1 && v > 0;
         IsMoving = moveVect.magnitude >= 0.5;
-        
+
         Body.Rotate(0, x * Sensitivity, 0);
         Head.Rotate(XBoundaries(-y * Sensitivity), 0, 0);
+
+        RegainStamina();
 
         Animator.SetFloat("InputSpeed", moveVect.magnitude == 0 ? 1 : moveVect.magnitude);
 
