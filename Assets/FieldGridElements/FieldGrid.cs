@@ -130,7 +130,7 @@ namespace Assets.FieldGridElements
         {
             if (!EditorApplication.isPlaying)
             {
-                this.Name = UnityEditorName;
+                Name = UnityEditorName;
                 Refresh();
             }
         }

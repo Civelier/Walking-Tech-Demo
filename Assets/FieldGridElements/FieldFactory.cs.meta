@@ -3,8 +3,24 @@ guid: 3595a17851c0859489d671408c78c073
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
+  defaultReferences:
+  - IntPropertyPrefab: {fileID: 2029488587587090711, guid: 14ebe2c4536997f4a809a9ce33e8ce52,
+      type: 3}
+  - FloatPropertyPrefab: {fileID: 1748611700861006743, guid: 721baea6c3f680a48b5b5a32a60b08dd,
+      type: 3}
+  - ReadonlyPropertyPrefab: {fileID: 6604869121459385246, guid: dac1db14079871d44b7facc55dd1a8d1,
+      type: 3}
+  - FieldGridPrefab: {fileID: 4415106707833295955, guid: 6bd6a2db133aa7648972f2122903e6ba,
+      type: 3}
+  - EnumPropertyPrefab: {fileID: 291074027586968561, guid: 4d151761b279d9448b2efd9a29e3b342,
+      type: 3}
+  - ButtonFieldPrefab: {fileID: 460740885818084206, guid: d6fb577cf5a5d604fab98abfb568e5b8,
+      type: 3}
+  - ListSelectionPrefab: {fileID: 5062347094797986452, guid: 7609acb0beb25ef4398ba03a679996f2,
+      type: 3}
+  - ReadonlyControlFieldPrefab: {fileID: 4646160555172332964, guid: 43d9cc405fa9c484290d6ceceb8aecef,
+      type: 3}
+  executionOrder: -100
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

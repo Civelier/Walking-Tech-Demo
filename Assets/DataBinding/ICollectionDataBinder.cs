@@ -16,6 +16,5 @@ namespace Assets.DataBinding
         void OnUIDataAdded(IEnumerable<T> items);
         void OnUIDataRemoved(IEnumerable<T> items);
         void OnUIDataIndexValueChanged(int index, T item);
-        void Unbind();
     }
 }

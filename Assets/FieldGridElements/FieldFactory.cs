@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.DataBinding;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,10 +18,10 @@ namespace Assets.FieldGridElements
         public GameObject FloatPropertyPrefab;
         public GameObject ReadonlyPropertyPrefab;
         public GameObject FieldGridPrefab;
-        public GameObject SongFieldPrefab;
         public GameObject EnumPropertyPrefab;
         public GameObject ButtonFieldPrefab;
         public GameObject ListSelectionPrefab;
+        public GameObject ReadonlyControlFieldPrefab;
         public FieldFactory()
         {
 
@@ -75,6 +76,22 @@ namespace Assets.FieldGridElements
         {
             ListSelectionProperty obj = Instantiate(ListSelectionPrefab, grid.ScrollRect.content.transform).GetComponent<ListSelectionProperty>();
             obj.Name = name;
+            return obj;
+        }
+
+        public ReadonlyControlField InstantiateReadonlyControlField(FieldGrid grid, UnityEngine.InputSystem.InputAction action, string overWriteName = "")
+        {
+            ReadonlyControlField obj = Instantiate(ReadonlyControlFieldPrefab, grid.ScrollRect.content.transform).GetComponent<ReadonlyControlField>();
+            obj._data = new InputData(action);
+            obj.NameOverwrite = overWriteName;
+            return obj;
+        }
+
+        public ReadonlyControlField InstantiateReadonlyControlField(FieldGrid grid, InputData action, string overWriteName = "")
+        {
+            ReadonlyControlField obj = Instantiate(ReadonlyControlFieldPrefab, grid.ScrollRect.content.transform).GetComponent<ReadonlyControlField>();
+            obj._data = action;
+            obj.NameOverwrite = overWriteName;
             return obj;
         }
 

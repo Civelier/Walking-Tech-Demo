@@ -8,12 +8,13 @@ using TMPro;
 namespace Assets.FieldGridElements
 {
     [ExecuteInEditMode]
-    public class ReadonlyControlField : MonoBehaviour, IUIData<InputData>
+    public class ReadonlyControlField : MonoBehaviour, IUIData<InputData>, IDisplayableField
     {
         public TextMeshProUGUI ControlName;
         public TextMeshProUGUI KeyboardKey;
         public TextMeshProUGUI XboxControl;
         public InputActionReference Reference;
+        public string NameOverwrite = "";
         public DataChangedEvent<InputData> DataChanged { get; set; }
 
         internal InputData _data;
@@ -25,9 +26,11 @@ namespace Assets.FieldGridElements
             }
         }
 
-    public GameObject DisplayObject => gameObject;
+        public GameObject DisplayObject => gameObject;
 
         public bool IsBinded => DataChanged != null;
+
+        public string Name { get => _data.ControlName; set => _data.ControlName = value; }
 
         public IData<InputData> GetData()
         {
@@ -36,7 +39,7 @@ namespace Assets.FieldGridElements
 
         public void OnUIDataChanged()
         {
-            ControlName.text = Data.ControlName;
+            ControlName.text = NameOverwrite == "" ? Data.ControlName : NameOverwrite;
             KeyboardKey.text = Data.KeyboardControl;
             XboxControl.text = Data.XboxControl;
         }
@@ -44,7 +47,7 @@ namespace Assets.FieldGridElements
         // Start is called before the first frame update
         void Start()
         {
-            _data = new InputData(Reference.action);
+            if (Reference != null) _data = new InputData(Reference.action);
             OnUIDataChanged();
         }
 
@@ -52,9 +55,13 @@ namespace Assets.FieldGridElements
         // Update is called once per frame
         void Update()
         {
-            _data = new InputData(Reference.action);
+            if (Reference != null) _data = new InputData(Reference.action);
             OnUIDataChanged();
         }
+
 #endif
+        public void Refresh()
+        {
+        }
     }
 }
