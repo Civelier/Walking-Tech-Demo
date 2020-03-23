@@ -22,12 +22,12 @@ namespace Assets.DataBinding
             {
                 if (c.device == InputSystem.GetDevice<UnityEngine.InputSystem.XInput.XInputController>())
                 {
-                    XboxControl = c.displayName;
+                    XboxControl = c.name;
                 }
 
                 if (c.device == InputSystem.GetDevice<Mouse>() || c.device == InputSystem.GetDevice<Keyboard>())
                 {
-                    KeyboardControl = c.displayName;
+                    KeyboardControl = c.name;
                 }
             }
         }

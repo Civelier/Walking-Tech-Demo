@@ -25,13 +25,13 @@ public class LampPostManager : MonoBehaviour
     void TurnOn()
     {
         Light.enabled = true;
-        Lamp.material = LightOn;
+        if (Lamp != null) Lamp.material = LightOn;
     }
 
     void TurnOff()
     {
         Light.enabled = false;
-        Lamp.material = LightOff;
+        if (Lamp != null) Lamp.material = LightOff;
     }
 
     // Update is called once per frame

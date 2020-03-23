@@ -82,7 +82,7 @@ public class Walking : MonoBehaviour
         if (Animator == null) Animator = GetComponent<Animator>();
         if (Input == null) Input = GetComponent<PlayerInput>();
         Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Locked;
         Randomizer = new System.Random();
         Health = MaxHealth;
         Stamina = MaxStamina;
