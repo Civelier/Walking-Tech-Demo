@@ -75,6 +75,7 @@ public class GameMenuHandler : MonoBehaviour, IMenu
             Cursor.visible = true;
             Walking.enabled = false;
             Focus();
+            _justGotFocus = false;
             return;
         }
         if (IsCurrent)
@@ -104,7 +105,11 @@ public class GameMenuHandler : MonoBehaviour, IMenu
         menu.Enable();
         menu.performed += OnEscape;
         //Escape.action.performed += OnEscape;
+#if UNITY_EDITOR
+        Quit.onClick.AddListener(() => UnityEditor.EditorApplication.isPlaying = false);
+#else
         Quit.onClick.AddListener(Application.Quit);
+#endif
         Unfocus();
     }
 }

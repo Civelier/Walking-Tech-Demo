@@ -5,14 +5,18 @@ using UnityEngine.InputSystem;
 using System.Linq;
 using Assets.FieldGridElements;
 using Assets.DataBinding;
+using Assets.GameMenu;
+using UnityEditor;
 
 [RequireComponent(typeof(RectTransform))]
+[ExecuteInEditMode]
 public class ControlsDisplayer : MonoBehaviour
 {
     public RectTransform RectTransform;
     public InputSettings Input;
     public FieldGrid Grid;
     public InputActionAsset Map;
+    public InputDisplayer Displayers;
     public string[] Maps;
     List<IDataBinder<InputData>> _binders = new List<IDataBinder<InputData>>();
     List<ValueTypeData<InputData>> _data = new List<ValueTypeData<InputData>>();

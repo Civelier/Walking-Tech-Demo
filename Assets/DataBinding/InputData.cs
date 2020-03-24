@@ -27,7 +27,7 @@ namespace Assets.DataBinding
 
                 if (c.device == InputSystem.GetDevice<Mouse>() || c.device == InputSystem.GetDevice<Keyboard>())
                 {
-                    KeyboardControl = c.name;
+                    KeyboardControl = c.displayName;
                 }
             }
         }
