@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 
 namespace Assets.DataBinding
 {
+    [Serializable]
     public struct InputData
     {
         public string ControlName;

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.DataBinding;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using TMPro;
 using Assets.GameMenu;
+using UnityEditor;
 
 namespace Assets.FieldGridElements
 {
@@ -14,11 +16,13 @@ namespace Assets.FieldGridElements
         public TextMeshProUGUI ControlName;
         public TextMeshProUGUI KeyboardKey;
         public TextMeshProUGUI XboxControl;
+        public Image KeyboardIcon;
+        public Image XboxIcon;
         public InputActionReference Reference;
         public string NameOverwrite = "";
         public DataChangedEvent<InputData> DataChanged { get; set; }
 
-        internal InputData _data;
+        public InputData _data;
         public InputData Data
         { 
             get => _data;
@@ -43,8 +47,31 @@ namespace Assets.FieldGridElements
         public void OnUIDataChanged()
         {
             ControlName.text = NameOverwrite == "" ? Data.ControlName : NameOverwrite;
-            KeyboardKey.text = Data.KeyboardControl;
-            XboxControl.text = Data.XboxControl;
+            if (Data.Displayers[0].DisplayAs == DisplayType.Image)
+            {
+                KeyboardIcon.enabled = true;
+                KeyboardKey.enabled = false;
+                KeyboardIcon.sprite = Data.Displayers[0].Image;
+            }
+            else
+            {
+                KeyboardIcon.enabled = false;
+                KeyboardKey.enabled = true;
+                KeyboardKey.text = Data.KeyboardControl;
+            }
+
+            if (Data.Displayers[1].DisplayAs == DisplayType.Image)
+            {
+                XboxIcon.enabled = true;
+                XboxControl.enabled = false;
+                XboxIcon.sprite = Data.Displayers[1].Image;
+            }
+            else
+            {
+                XboxIcon.enabled = false;
+                XboxControl.enabled = true;
+                XboxControl.text = Data.XboxControl;
+            }
             DataChanged?.Binder.OnUIDataChanged();
         }
 
@@ -79,7 +106,7 @@ namespace Assets.FieldGridElements
         void Update()
         {
             //if (Reference != null) _data = new InputData(Reference.action);
-            if (!Application.isPlaying) OnUIDataChanged();
+            if (!EditorApplication.isPlaying) OnUIDataChanged();
         }
 
 #endif
