@@ -2,12 +2,15 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
-using UnityEditor.UIElements;
+#endif
 using Assets.Scripts;
 using System;
 using UnityEngine.Events;
 
+
+#if UNITY_EDITOR
 class EditorGUIPopup : EditorWindow
 {
     public string[] options = { "Rigidbody", "Box Collider", "Sphere Collider" };
@@ -79,6 +82,7 @@ public class SelectionListDrawer : PropertyDrawer
         //EditorGUI.EndProperty();
     }
 }
+#endif
 
 [Serializable]
 public class SelectionList
@@ -102,6 +106,7 @@ public class SelectionList
         SelectionIndex = 0;
     }
 
+#if UNITY_EDITOR
     public static string GetItem(SerializedProperty selectionList)
     {
         var array = selectionList.FindPropertyRelative("Array");
@@ -114,4 +119,5 @@ public class SelectionList
         }
         return "";
     }
+#endif
 }

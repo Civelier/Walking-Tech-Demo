@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEditor;
-using UnityEditor.UIElements;
-using UnityEngine.UIElements;
 using UnityEngine.InputSystem.Utilities;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Assets.GameMenu
 {
@@ -19,6 +19,7 @@ namespace Assets.GameMenu
         OverrideText,
     }
 
+#if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(InputDisplayer))]
     public class InputDisplayerDrawer : PropertyDrawer
     {
@@ -84,6 +85,7 @@ namespace Assets.GameMenu
             EditorGUI.EndProperty();
         }
     }
+#endif
 
     [Serializable]
     public class InputDisplayer
@@ -107,6 +109,7 @@ namespace Assets.GameMenu
             Selection.SelectionIndex = index;
         }
 
+#if UNITY_EDITOR
         public static void Update(SerializedProperty inputDisplayer)
         {
             var reference = (InputActionReference)inputDisplayer.FindPropertyRelative("Reference").objectReferenceValue;
@@ -150,6 +153,7 @@ namespace Assets.GameMenu
                 inputDisplayer.FindPropertyRelative("Text").stringValue = list.GetArrayElementAtIndex(inputDisplayer.FindPropertyRelative("Selection").FindPropertyRelative("SelectionIndex").intValue).stringValue;
             }
         }
+#endif
 
         IEnumerable<string> GetControls()
         {

@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
-using UnityEditor.UIElements;
 
 namespace Assets.Scripts
 {
@@ -28,3 +28,4 @@ namespace Assets.Scripts
         }
     }
 }
+#endif

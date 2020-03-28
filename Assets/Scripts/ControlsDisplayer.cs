@@ -45,10 +45,12 @@ public class ControlsDisplayer : MonoBehaviour
 #endif
     }
 
+#if UNITY_EDITOR
     void OnPlayModeStateChanged(PlayModeStateChange state)
     {
         if (state == PlayModeStateChange.EnteredEditMode) Application_quitting();
     }
+#endif
 
     private void OnDeviceChange(InputDevice arg1, InputDeviceChange arg2)
     {

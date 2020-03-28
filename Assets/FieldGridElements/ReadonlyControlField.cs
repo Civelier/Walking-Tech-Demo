@@ -6,7 +6,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
 using Assets.GameMenu;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 namespace Assets.FieldGridElements
 {
