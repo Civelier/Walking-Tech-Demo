@@ -61,9 +61,14 @@ namespace Assets.FieldGridElements
         public void Clear()
         {
             var a = _fields.ToArray();
-            foreach (var field in _fields)
+            //foreach (var field in _fields)
+            //{
+            //    //field.DisplayObject.SetActive(true);
+            //    DestroyImmediate(field.DisplayObject.transform);
+            //}
+            for (int i = 0; i < ScrollRect.content.childCount; i++)
             {
-                Destroy(field.DisplayObject);
+                DestroyImmediate(ScrollRect.content.GetChild(i).gameObject);
             }
             _fields.Clear();
             OnRemoved(a);

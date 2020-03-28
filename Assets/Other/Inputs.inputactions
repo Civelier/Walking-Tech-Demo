@@ -115,17 +115,6 @@
                 },
                 {
                     "name": "",
-                    "id": "cf4ce75b-50f0-4f3e-a95a-d093f68b6290",
-                    "path": "<XInputController>/rightStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "57a64412-98a7-4568-abde-fa36ad8fb1c4",
                     "path": "<Mouse>/delta",
                     "interactions": "",
@@ -198,6 +187,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Heal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cf4ce75b-50f0-4f3e-a95a-d093f68b6290",
+                    "path": "<XInputController>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

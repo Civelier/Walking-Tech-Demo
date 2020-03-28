@@ -4,6 +4,7 @@ using UnityEngine;
 using Assets.DataBinding;
 using UnityEngine.InputSystem;
 using TMPro;
+using Assets.GameMenu;
 
 namespace Assets.FieldGridElements
 {
@@ -23,6 +24,8 @@ namespace Assets.FieldGridElements
             get => _data;
             set
             {
+                _data = value;
+                OnUIDataChanged();
             }
         }
 
@@ -42,6 +45,26 @@ namespace Assets.FieldGridElements
             ControlName.text = NameOverwrite == "" ? Data.ControlName : NameOverwrite;
             KeyboardKey.text = Data.KeyboardControl;
             XboxControl.text = Data.XboxControl;
+            DataChanged?.Binder.OnUIDataChanged();
+        }
+
+        public void SetKeyboardDisplayer(InputDisplayer displayer)
+        {
+            _data.SetKeyboardDisplayer(displayer);
+            OnUIDataChanged();
+        }
+
+        public void SetControllerDisplayer(InputDisplayer displayer)
+        {
+            _data.SetXboxDisplayer(displayer);
+            OnUIDataChanged();
+        }
+
+        public void SetDisplayer(InputDisplayer displayer)
+        {
+            if (displayer.Selection.SelectionIndex == 0) _data.SetKeyboardDisplayer(displayer);
+            else _data.SetXboxDisplayer(displayer);
+            OnUIDataChanged();
         }
 
         // Start is called before the first frame update
@@ -55,8 +78,8 @@ namespace Assets.FieldGridElements
         // Update is called once per frame
         void Update()
         {
-            if (Reference != null) _data = new InputData(Reference.action);
-            OnUIDataChanged();
+            //if (Reference != null) _data = new InputData(Reference.action);
+            if (!Application.isPlaying) OnUIDataChanged();
         }
 
 #endif
