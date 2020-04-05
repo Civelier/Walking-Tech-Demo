@@ -64,6 +64,7 @@ namespace Assets.FieldGridElements
         public void OnUIDataChanged()
         {
             DataChanged?.Invoke();
+            Refresh();
         }
 
         public IData<object> GetData()
