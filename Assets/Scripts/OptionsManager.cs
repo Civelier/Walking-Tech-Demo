@@ -1,26 +1,25 @@
 ﻿using Assets.FieldAttributes;
 using Assets.FieldGridElements;
+using Assets.GameMenu;
 using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
+using System.IO;
 
 public class OptionsManager : MonoBehaviour
 {
     public FieldGrid Grid;
-    public GameOptions Options = new GameOptions();
     public FieldDisplayer<GameOptions> Displayer;
+    public SubMenu Menu;
 
     // Start is called before the first frame update
     void Start()
     {
-        Displayer = new FieldDisplayer<GameOptions>(Grid, Options);
+        Displayer = new FieldDisplayer<GameOptions>(Grid, GameSettings.Instance.Options);
         Displayer.Display();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Menu.LostFocus.AddListener(GameSettings.Instance.Options.Save);
     }
 }

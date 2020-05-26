@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(Animator))]
 public class Walking : MonoBehaviour
@@ -18,6 +20,7 @@ public class Walking : MonoBehaviour
     public PlayerInput Input;
     public AudioClip[] StepAudio;
     public AudioSource StepSource;
+    public AudioSource MusicSource;
     public System.Random Randomizer;
     public HealthBar Bar;
     public CapsuleCollider Collider;
@@ -86,6 +89,9 @@ public class Walking : MonoBehaviour
         Randomizer = new System.Random();
         Health = MaxHealth;
         Stamina = MaxStamina;
+
+        GameSettings.Instance.SFXVolumeChanged.AddListener(() => StepSource.volume = GameSettings.Instance.SFXVolume / 100.0f);
+        GameSettings.Instance.GameVolumeChanged.AddListener(() => MusicSource.volume = GameSettings.Instance.GameVolume / 100.0f);
     }
 
     float XBoundaries(float y)

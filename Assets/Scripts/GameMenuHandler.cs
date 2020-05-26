@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
-
+using UnityEngine.Events;
 
 public class GameMenuHandler : MonoBehaviour, IMenu
 {
@@ -18,6 +18,12 @@ public class GameMenuHandler : MonoBehaviour, IMenu
     public Button Quit;
 
     bool _justGotFocus = false;
+
+    private UnityEvent _lostFocus = new UnityEvent();
+    public UnityEvent LostFocus => _lostFocus;
+
+    private UnityEvent _gotFocus = new UnityEvent();
+    public UnityEvent GotFocus => _gotFocus;
 
     IMenu _current;
     public IMenu Current
@@ -47,24 +53,28 @@ public class GameMenuHandler : MonoBehaviour, IMenu
     {
         MainPanel.SetActive(false);
         Current = null;
+        _lostFocus.Invoke();
     }
 
     public void Focus()
     {
         MainPanel.SetActive(true);
         Current = this;
+        _gotFocus.Invoke();
     }
 
     public void Hide()
     {
         BasePanel.gameObject.SetActive(false);
         _justGotFocus = false;
+        _lostFocus.Invoke();
     }
 
-    public void Show()
+    public void Show(bool tempFocus = true)
     {
         BasePanel.gameObject.SetActive(true);
-        _justGotFocus = true;
+        if (tempFocus) _justGotFocus = true;
+        _gotFocus.Invoke();
     }
 
     void OnEscape(InputAction.CallbackContext obj)
@@ -90,6 +100,7 @@ public class GameMenuHandler : MonoBehaviour, IMenu
             }
             return;
         }
+        ((SubMenu)Current).Back(new InputAction.CallbackContext());
     }
 
     // Start is called before the first frame update

@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.Events;
 
 namespace Assets.GameMenu
 {
@@ -25,29 +26,43 @@ namespace Assets.GameMenu
             }
         }
 
-        void Start()
-        {
-            Parent.Escape.action.performed += Back;
-        }
+        private UnityEvent _lostFocus = new UnityEvent();
+        public UnityEvent LostFocus => _lostFocus;
 
-        private void Back(InputAction.CallbackContext obj)
+        private UnityEvent _gotFocus = new UnityEvent();
+        public UnityEvent GotFocus => _gotFocus;
+
+        //void Start()
+        //{
+        //    Parent.Escape.action.performed += Back;
+        //}
+
+        public void Back(InputAction.CallbackContext obj)
         {
-            if (IsCurrent) Current = Parent;
+            if (IsCurrent)
+            {
+                Hide();
+                Parent.Show();
+                _lostFocus.Invoke();
+            }
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
+            _lostFocus.Invoke();
         }
 
-        public void Show()
+        public void Show(bool tempFocus = true)
         {
             gameObject.SetActive(true);
+            _gotFocus.Invoke();
         }
 
         public void Focus()
         {
             Current = this;
+            _gotFocus.Invoke();
         }
     }
 }

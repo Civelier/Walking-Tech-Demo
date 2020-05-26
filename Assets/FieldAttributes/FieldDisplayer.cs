@@ -50,6 +50,7 @@ namespace Assets.FieldAttributes
 
             foreach (var member in members)
             {
+
                 if (member.MemberType == MemberTypes.Field)
                 {
                     fe.MoveNext();
@@ -150,20 +151,23 @@ namespace Assets.FieldAttributes
                         }
                     }
                 }
-                if (member.MemberType == MemberTypes.Method && member.GetCustomAttribute<DisplayableInFieldGridAttribute>() != null)
+                if (member.MemberType == MemberTypes.Method)
                 {
                     me.MoveNext();
-                    var m = (MethodInfo)me.Current;
-                    if (m.GetCustomAttribute<NonSerializedAttribute>() == null)
+                    if (member.GetCustomAttribute<DisplayableInFieldGridAttribute>() != null)
                     {
-                        var displayNameAttribute = m.GetCustomAttribute<DisplayNameAttribute>();
-                        string[] labels = GetLabels(m).ToArray();
-                        string name = displayNameAttribute?.Name ?? ObjectNames.NicifyVariableName(m.Name);
-                        if (m.GetParameters().Length == 0)
+                        var m = (MethodInfo)me.Current;
+                        if (m.GetCustomAttribute<NonSerializedAttribute>() == null)
                         {
-                            var field = FieldFactory.Instance.InstantiateButtonField(Grid, name, () => m.Invoke(SerializableObject, new object[0]));
-                            this.fields.Add(field);
-                            Grid.Add(field);
+                            var displayNameAttribute = m.GetCustomAttribute<DisplayNameAttribute>();
+                            string[] labels = GetLabels(m).ToArray();
+                            string name = displayNameAttribute?.Name ?? ObjectNames.NicifyVariableName(m.Name);
+                            if (m.GetParameters().Length == 0)
+                            {
+                                var field = FieldFactory.Instance.InstantiateButtonField(Grid, name, () => m.Invoke(SerializableObject, new object[0]));
+                                this.fields.Add(field);
+                                Grid.Add(field);
+                            }
                         }
                     }
                 }
@@ -179,6 +183,14 @@ namespace Assets.FieldAttributes
         public void Display()
         {
             Generate();
+        }
+
+        public void Update()
+        {
+            foreach (var d in datas)
+            {
+                d.OnDataChanged();
+            }
         }
     }
 }
