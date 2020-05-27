@@ -14,7 +14,7 @@ namespace Assets.GameMenu
         IMenu Current { get; set; }
         bool IsCurrent { get; set; }
         void Focus();
-        void Show(bool tempFocus = true);
+        void Show();
         void Hide();
     }
 }

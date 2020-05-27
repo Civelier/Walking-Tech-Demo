@@ -27,7 +27,7 @@ namespace Assets.Scripts
 
         [Readonly]
         [FieldAttributes.DisplayName("Game version")]
-        public Version Version = new Version(1, 0, 6);
+        public Version Version = new Version(1, 0, 7);
 
         [Readonly]
         public Version OptionsVersion = new Version(1, 0);

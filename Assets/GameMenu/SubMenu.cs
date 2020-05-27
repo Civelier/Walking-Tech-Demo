@@ -32,17 +32,16 @@ namespace Assets.GameMenu
         private UnityEvent _gotFocus = new UnityEvent();
         public UnityEvent GotFocus => _gotFocus;
 
-        //void Start()
-        //{
-        //    Parent.Escape.action.performed += Back;
-        //}
+        void Start()
+        {
+            Parent.Escape.action.performed += Back;
+        }
 
         public void Back(InputAction.CallbackContext obj)
         {
             if (IsCurrent)
             {
-                Hide();
-                Parent.Show();
+                Current = Parent;
                 _lostFocus.Invoke();
             }
         }
@@ -53,7 +52,7 @@ namespace Assets.GameMenu
             _lostFocus.Invoke();
         }
 
-        public void Show(bool tempFocus = true)
+        public void Show()
         {
             gameObject.SetActive(true);
             _gotFocus.Invoke();

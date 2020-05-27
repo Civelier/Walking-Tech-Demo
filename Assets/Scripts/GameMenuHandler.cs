@@ -70,10 +70,10 @@ public class GameMenuHandler : MonoBehaviour, IMenu
         _lostFocus.Invoke();
     }
 
-    public void Show(bool tempFocus = true)
+    public void Show()
     {
         BasePanel.gameObject.SetActive(true);
-        if (tempFocus) _justGotFocus = true;
+        _justGotFocus = true;
         _gotFocus.Invoke();
     }
 
@@ -100,7 +100,6 @@ public class GameMenuHandler : MonoBehaviour, IMenu
             }
             return;
         }
-        ((SubMenu)Current).Back(new InputAction.CallbackContext());
     }
 
     // Start is called before the first frame update
