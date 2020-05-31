@@ -66,21 +66,28 @@ namespace Roads
                     selected = EditorGUIUtility.GetObjectPickerObject();
                 var head = t.Head;
                 EditorGUILayout.PropertyField(new SerializedObject(t).FindProperty("_head"));
-                if (GUILayout.Button("Connect path as incomming"))
-                {
-                    EditorGUIUtility.ShowObjectPicker<PathRoadLayout>(null, true, "", EditorGUIUtility.GetObjectPickerControlID());
+                //if (GUILayout.Button("Connect path as incomming"))
+                //{
+                //    EditorGUIUtility.ShowObjectPicker<PathRoadLayout>(null, true, "", EditorGUIUtility.GetObjectPickerControlID());
 
-                    stateHead = 0;
-                }
-                if (GUILayout.Button("Connect path as outgoing"))
-                {
-                    EditorGUIUtility.ShowObjectPicker<PathRoadLayout>(null, true, "", EditorGUIUtility.GetObjectPickerControlID());
+                //    stateHead = 0;
+                //}
+                //if (GUILayout.Button("Connect path as outgoing"))
+                //{
+                //    EditorGUIUtility.ShowObjectPicker<PathRoadLayout>(null, true, "", EditorGUIUtility.GetObjectPickerControlID());
 
-                    stateHead = 1;
-                }
+                //    stateHead = 1;
+                //}
                 if (GUILayout.Button("Merge node to node"))
                 {
-                    EditorGUIUtility.ShowObjectPicker<PathNode>(null, true, "", EditorGUIUtility.GetObjectPickerControlID());
+                    var nodes = from o in FindObjectsOfType<GameObject>() where (o.GetComponent<PathNode>() != null && o != t.Head.gameObject) select o.GetComponent<PathNode>();
+                    PathNode closest = null;
+                    foreach (var node in nodes)
+                    {
+                        closest = closest ?? node;
+                        closest = ((node.Position - t.Head.Position).magnitude < (closest.Position - t.Head.Position).magnitude) ? node : closest;
+                    }
+                    EditorGUIUtility.ShowObjectPicker<PathNode>(closest, true, "", EditorGUIUtility.GetObjectPickerControlID());
 
                     stateHead = 2;
                 }
@@ -148,21 +155,28 @@ namespace Roads
                     selected = EditorGUIUtility.GetObjectPickerObject();
                 var tail = t.Tail;
                 EditorGUILayout.PropertyField(new SerializedObject(t).FindProperty("_tail"));
-                if (GUILayout.Button("Connect path as incomming"))
-                {
-                    EditorGUIUtility.ShowObjectPicker<PathRoadLayout>(null, true, "", EditorGUIUtility.GetObjectPickerControlID());
+                //if (GUILayout.Button("Connect path as incomming"))
+                //{
+                //    EditorGUIUtility.ShowObjectPicker<PathRoadLayout>(null, true, "", EditorGUIUtility.GetObjectPickerControlID());
 
-                    stateTail = 0;
-                }
-                if (GUILayout.Button("Connect path as outgoing"))
-                {
-                    EditorGUIUtility.ShowObjectPicker<PathRoadLayout>(null, true, "", EditorGUIUtility.GetObjectPickerControlID());
+                //    stateTail = 0;
+                //}
+                //if (GUILayout.Button("Connect path as outgoing"))
+                //{
+                //    EditorGUIUtility.ShowObjectPicker<PathRoadLayout>(null, true, "", EditorGUIUtility.GetObjectPickerControlID());
 
-                    stateTail = 1;
-                }
+                //    stateTail = 1;
+                //}
                 if (GUILayout.Button("Merge node to node"))
                 {
-                    EditorGUIUtility.ShowObjectPicker<PathNode>(null, true, "", EditorGUIUtility.GetObjectPickerControlID());
+                    var nodes = from o in FindObjectsOfType<GameObject>() where (o.GetComponent<PathNode>() != null && o != t.Tail.gameObject) select o.GetComponent<PathNode>();
+                    PathNode closest = null; 
+                    foreach (var node in nodes)
+                    {
+                        closest = closest ?? node;
+                        closest = ((node.Position - t.Tail.Position).magnitude < (closest.Position - t.Tail.Position).magnitude) ? node : closest;
+                    }
+                    EditorGUIUtility.ShowObjectPicker<PathNode>(closest, true, "", EditorGUIUtility.GetObjectPickerControlID());
 
                     stateTail = 2;
                 }
