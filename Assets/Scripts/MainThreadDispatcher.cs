@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [DefaultExecutionOrder(0)]
+[ExecuteInEditMode]
 public class MainThreadDispatcher : MonoBehaviour
 {
     public static MainThreadDispatcher Instance;

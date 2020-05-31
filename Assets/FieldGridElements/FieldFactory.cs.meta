@@ -20,7 +20,7 @@ MonoImporter:
       type: 3}
   - ReadonlyControlFieldPrefab: {fileID: 4646160555172332964, guid: 43d9cc405fa9c484290d6ceceb8aecef,
       type: 3}
-  executionOrder: -120
+  executionOrder: -500
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 
