@@ -92,6 +92,18 @@ namespace Roads
                     stateHead = 2;
                 }
 
+                if (GUILayout.Button("Connect to closest"))
+                {
+                    var nodes = from o in FindObjectsOfType<GameObject>() where (o.GetComponent<PathNode>() != null && o != t.Head.gameObject) select o.GetComponent<PathNode>();
+                    PathNode closest = null;
+                    foreach (var node in nodes)
+                    {
+                        closest = closest ?? node;
+                        closest = ((node.Position - t.Head.Position).magnitude < (closest.Position - t.Head.Position).magnitude) ? node : closest;
+                    }
+                    if (closest != null) head.MergeTo(closest);
+                }
+
                 if (Event.current.commandName == "ObjectSelectorClosed")
                 {
                     switch (stateHead)
@@ -179,6 +191,17 @@ namespace Roads
                     EditorGUIUtility.ShowObjectPicker<PathNode>(closest, true, "", EditorGUIUtility.GetObjectPickerControlID());
 
                     stateTail = 2;
+                }
+                if (GUILayout.Button("Connect to closest"))
+                {
+                    var nodes = from o in FindObjectsOfType<GameObject>() where (o.GetComponent<PathNode>() != null && o != t.Tail.gameObject) select o.GetComponent<PathNode>();
+                    PathNode closest = null;
+                    foreach (var node in nodes)
+                    {
+                        closest = closest ?? node;
+                        closest = ((node.Position - t.Tail.Position).magnitude < (closest.Position - t.Tail.Position).magnitude) ? node : closest;
+                    }
+                    if (closest != null) tail.MergeTo(closest);
                 }
 
                 if (Event.current.commandName == "ObjectSelectorClosed")
