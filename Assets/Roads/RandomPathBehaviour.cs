@@ -9,7 +9,7 @@ namespace Roads
     public class RandomPathBehaviour : IChooseRoadBehaviour
     {
         System.Random _random = new System.Random();
-        public PathRoadLayout ChoosePath(IEnumerable<PathRoadLayout> roads)
+        public RoadTravel ChoosePath(IEnumerable<RoadTravel> roads)
         {
             int i = _random.Next(roads.Count());
             Debug.Log($"Random = {i}");

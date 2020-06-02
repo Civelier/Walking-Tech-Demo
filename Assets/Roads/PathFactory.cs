@@ -9,6 +9,7 @@ public class PathFactory : MonoBehaviour
 
     public GameObject PathPrefab;
     public GameObject NodePrefab;
+    public GameObject RoadChangePrefab;
 
 #if UNITY_EDITOR
     private void OnGUI()

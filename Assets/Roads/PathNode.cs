@@ -150,7 +150,7 @@ namespace Roads
             if (IncommingRoads.Contains(path))
             {
                 IncommingRoads.Remove(path);
-                //if (IncommingRoads.Count == 0 && OutgoingRoads.Count == 0) MainThreadDispatcher.Schedule(() => DestroyImmediate(this));
+                if (IncommingRoads.Count == 0 && OutgoingRoads.Count == 0) MainThreadDispatcher.Schedule(() => Destroy(gameObject));
             }
         }
 
@@ -160,7 +160,7 @@ namespace Roads
             {
                 OutgoingRoads.Remove(path);
                 
-                //if (IncommingRoads.Count == 0 && OutgoingRoads.Count == 0) MainThreadDispatcher.Schedule(() => DestroyImmediate(this));
+                if (IncommingRoads.Count == 0 && OutgoingRoads.Count == 0) MainThreadDispatcher.Schedule(() => Destroy(gameObject));
             }
         }
 
@@ -175,7 +175,7 @@ namespace Roads
                 path.Head = this;
             }
             ForceUpdate();
-            Destroy(node);
+            Destroy(node.gameObject);
         }
 
         public void MergeTo(PathNode node)

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7526876119385332021
+--- !u!1 &6076176509351726211
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,23 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7526876119385332027}
-  - component: {fileID: 7526876119385332026}
-  - component: {fileID: 7526876119385332020}
+  - component: {fileID: 6076176509351726221}
+  - component: {fileID: 6076176509351726220}
+  - component: {fileID: 6076176509351726222}
   m_Layer: 0
-  m_Name: RoadPrefab
+  m_Name: RoadChangePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7526876119385332027
+--- !u!4 &6076176509351726221
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7526876119385332021}
+  m_GameObject: {fileID: 6076176509351726211}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,31 +32,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7526876119385332026
+--- !u!114 &6076176509351726220
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7526876119385332021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 665447f56a734b742a6d7d40da764ef8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Users: []
-  _head: {fileID: 0}
-  _tail: {fileID: 0}
-  ThisPath: {fileID: 7526876119385332020}
-  LeftRoad: {fileID: 0}
-  RightRoad: {fileID: 0}
---- !u!114 &7526876119385332020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7526876119385332021}
+  m_GameObject: {fileID: 6076176509351726211}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e5ac92bc18f545cc84cd886ece82b4d, type: 3}
@@ -65,22 +47,30 @@ MonoBehaviour:
   editorData:
     _bezierPath:
       points:
-      - {x: -10, y: 0, z: 0}
-      - {x: -5, y: 0, z: 0}
-      - {x: 5, y: 0, z: 0}
-      - {x: 10, y: 0, z: 0}
+      - {x: -7.4563885, y: 0, z: -1.5966997}
+      - {x: -5.803494, y: 0, z: -1.0795465}
+      - {x: -4.1505995, y: 0, z: -0.5623932}
+      - {x: -2, y: 0, z: 0}
+      - {x: 1.2923238, y: 0, z: 0.8609601}
+      - {x: 3.1249173, y: 0, z: 1.3906765}
+      - {x: 6.480383, y: 0, z: 1.9576826}
+      - {x: 7.7744365, y: 0, z: 2.1763515}
+      - {x: 8.795905, y: 0, z: 2.2477884}
+      - {x: 9.817373, y: 0, z: 2.3192253}
       isClosed: 0
       space: 2
       controlMode: 3
-      autoControlLength: 0.164
+      autoControlLength: 0.391
       boundsUpToDate: 0
       bounds:
-        m_Center: {x: 0, y: 0, z: 0}
-        m_Extent: {x: 2, y: 0.14433756, z: 0}
+        m_Center: {x: 1.1804924, y: 0, z: 0.3612628}
+        m_Extent: {x: 8.636881, y: 0, z: 1.9579625}
       perAnchorNormalsAngle:
       - 0
       - 0
-      globalNormalsAngle: 0
+      - 0
+      - 0
+      globalNormalsAngle: 90
       flipNormals: 0
     vertexPathUpToDate: 0
     vertexPathMaxAngleError: 0.3
@@ -99,7 +89,24 @@ MonoBehaviour:
     showPathOptions: 1
     showVertexPathDisplayOptions: 0
     showVertexPathOptions: 1
-    showNormals: 0
+    showNormals: 1
     showNormalsHelpInfo: 0
     tabIndex: 0
   initialized: 1
+--- !u!114 &6076176509351726222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6076176509351726211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abde2419b18b3fa4a9a31deb4249a0a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitialTravel:
+    Distance: 0
+  DestinationTravel:
+    Distance: 0
+  ThisPath: {fileID: 6076176509351726220}

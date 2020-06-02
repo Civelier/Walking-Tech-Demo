@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PathCreation;
+using System.Linq;
 
 namespace Roads
 {
     [ExecuteInEditMode]
-    public class PathRoadLayout : RoadPathInfo
+    public class PathRoadLayout : MonoBehaviour, IRoad
     {
+        public List<GameObject> Users = new List<GameObject>();
+
 #if UNITY_EDITOR
         public PathNode _head;
 #else
@@ -23,7 +26,7 @@ namespace Roads
                 {
                     //_head.NodeMoved -= OnHeadMoved;
                     _head.RemoveIncomming(this);
-                    if (_head.IncommingRoads.Count == 0 && _head.OutgoingRoads.Count == 0) Destroy(_head);
+                    //if (_head.IncommingRoads.Count == 0 && _head.OutgoingRoads.Count == 0) Destroy(_head.gameObject);
                 }
                 _head = value;
                 if (_head != null)
@@ -49,7 +52,7 @@ namespace Roads
                 {
                     //_tail.NodeMoved -= OnTailMoved;
                     _tail.RemoveOutgoing(this);
-                    if (_tail.IncommingRoads.Count == 0 && _tail.OutgoingRoads.Count == 0) Destroy(_tail);
+                    //if (_tail.IncommingRoads.Count == 0 && _tail.OutgoingRoads.Count == 0) Destroy(_tail);
                 }
                 _tail = value;
                 if (_tail != null)
@@ -59,19 +62,22 @@ namespace Roads
                 }
             }
         }
+
+        public PathCreator Path => ThisPath;
+
+        public IEnumerable<RoadTravel> EndTravels => GetTravels();
+
         public Vector3 this[int i]
         {
             get
             {
-                if (i < 0) i += ThisPath.bezierPath.NumPoints;
-                return ThisPath.bezierPath.GetPoint(i);
+                return ThisPath.bezierPath.GetPoint(AnchorToPointIndex(i));
             }
             set
             {
-                if (i < 0) i += ThisPath.bezierPath.NumPoints;
                 if (value != this[i])
                 {
-                    ThisPath.bezierPath.SetPoint(i, value, true);
+                    ThisPath.bezierPath.MovePoint(AnchorToPointIndex(i), value, true);
                     var mode = ThisPath.bezierPath.ControlPointMode;
                     ThisPath.bezierPath.ControlPointMode = BezierPath.ControlMode.Free;
                     ThisPath.bezierPath.ControlPointMode = mode;
@@ -81,7 +87,38 @@ namespace Roads
             }
         }
         public PathCreator ThisPath;
+        public PathRoadLayout LeftRoad;
+        public PathRoadLayout RightRoad;
         private bool _update = true;
+
+        IEnumerable<int> GetSegmentsNumPoints()
+        {
+            for (int i = 0; i < ThisPath.bezierPath.NumSegments; i++)
+            {
+                yield return ThisPath.bezierPath.GetPointsInSegment(i).Length;
+            }
+        }
+
+        public int AnchorToPointIndex(int anchorIndex)
+        {
+            if (anchorIndex < 0) anchorIndex += ThisPath.bezierPath.NumAnchorPoints;
+            int index = 0;
+            var arr = GetSegmentsNumPoints().ToArray();
+            for (int i = 0; i < anchorIndex; i++)
+            {
+                index += arr[i] - 1;
+            }
+            return index;
+        }
+
+        IEnumerable<RoadTravel> GetTravels()
+        {
+            foreach (var road in Head.OutgoingRoads)
+            {
+                yield return new RoadTravel(road);
+            }
+        }
+
 
         // Start is called before the first frame update
         void Start()
@@ -177,6 +214,16 @@ namespace Roads
                 //ThisPath.EditorData.PathTransformed();
             }
             EnableNotifications();
+        }
+
+        public void Exitted(GameObject user)
+        {
+            Users.Remove(user);
+        }
+
+        public void Entered(GameObject user)
+        {
+            Users.Add(user);
         }
     }
 }

@@ -9,6 +9,6 @@ namespace Roads
 {
     public interface IChooseRoadBehaviour
     {
-        PathRoadLayout ChoosePath(IEnumerable<PathRoadLayout> roads);
+        RoadTravel ChoosePath(IEnumerable<RoadTravel> roads);
     }
 }
