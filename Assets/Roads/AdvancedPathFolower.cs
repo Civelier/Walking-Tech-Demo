@@ -56,7 +56,7 @@ namespace Roads
                 OnTravelChanged();
             }
         }
-        public PathRoadLayout InitialRoad;
+        public Road InitialRoad;
         public float speed = 5;
         [Range(0, 1)]
         public float LaneChangeProbability = 0.2f;
@@ -110,43 +110,40 @@ namespace Roads
         {
             if (Travel != null)
             {
-                if (Travel.Road is PathRoadLayout)
+                var r = Travel.Road;
+                if (_changeLaneRightQueued)
                 {
-                    var r = (PathRoadLayout)Travel.Road;
-                    if (_changeLaneRightQueued)
+                    if (r.RightRoad != null)
                     {
-                        if (r.RightRoad != null)
+                        var c = ChangeBehaviour.PlanRoadChange(Travel, r.RightRoad);
+                        if (c != null)
                         {
-                            var c = ChangeBehaviour.PlanRoadChange(Travel, r.RightRoad);
-                            if (c != null)
-                            {
-                                Travel = new RoadTravel(c);
-                                _changeLaneRightQueued = false;
-                            }
+                            Travel = new RoadTravel(c);
+                            _changeLaneRightQueued = false;
                         }
                     }
-                    if (_changeLaneLeftQueued)
+                }
+                if (_changeLaneLeftQueued)
+                {
+                    if (r.LeftRoad != null)
                     {
-                        if (r.LeftRoad != null)
+                        var c = ChangeBehaviour.PlanRoadChange(Travel, r.LeftRoad);
+                        if (c != null)
                         {
-                            var c = ChangeBehaviour.PlanRoadChange(Travel, r.LeftRoad);
-                            if (c != null)
-                            {
-                                Travel = new RoadTravel(c);
-                                _changeLaneLeftQueued = false;
-                            }
+                            Travel = new RoadTravel(c);
+                            _changeLaneLeftQueued = false;
                         }
                     }
-                    if (r.LeftRoad != null && r.RightRoad != null)
-                    {
-                        int v = UnityEngine.Random.Range(0, 1);
-                        LaneChange(v == 1);
-                    }
-                    else
-                    {
-                        if (r.LeftRoad != null) LaneChange(true);
-                        if (r.RightRoad != null) LaneChange(false);
-                    }
+                }
+                if (r.LeftRoad != null && r.RightRoad != null)
+                {
+                    int v = UnityEngine.Random.Range(0, 1);
+                    LaneChange(v == 1);
+                }
+                else
+                {
+                    if (r.LeftRoad != null) LaneChange(true);
+                    if (r.RightRoad != null) LaneChange(false);
                 }
                 
                 if (!Travel.MoveAtSpeed(speed))

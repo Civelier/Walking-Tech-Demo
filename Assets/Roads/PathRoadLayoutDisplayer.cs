@@ -139,10 +139,10 @@ namespace Roads
                     var obj = Instantiate(PathFactory.Instance.PathPrefab);
                     var layout = obj.GetComponent<PathRoadLayout>();
                     layout.Head = head;
-                    layout.ThisPath.bezierPath.AddSegmentToEnd(new Vector3(pos.x + 1, pos.y, pos.z));
-                    layout.ThisPath.bezierPath.AddSegmentToEnd(pos);
-                    layout.ThisPath.bezierPath.DeleteSegment(1);
-                    layout.ThisPath.bezierPath.DeleteSegment(0);
+                    layout.Path.bezierPath.AddSegmentToEnd(new Vector3(pos.x + 1, pos.y, pos.z));
+                    layout.Path.bezierPath.AddSegmentToEnd(pos);
+                    layout.Path.bezierPath.DeleteSegment(1);
+                    layout.Path.bezierPath.DeleteSegment(0);
                 }
                 if (GUILayout.Button("Create outgoing road"))
                 {
@@ -150,10 +150,10 @@ namespace Roads
                     var obj = Instantiate(PathFactory.Instance.PathPrefab);
                     var layout = obj.GetComponent<PathRoadLayout>();
                     layout.Tail = head;
-                    layout.ThisPath.bezierPath.AddSegmentToEnd(pos);
-                    layout.ThisPath.bezierPath.AddSegmentToEnd(new Vector3(pos.x + 1, pos.y, pos.z));
-                    layout.ThisPath.bezierPath.DeleteSegment(1);
-                    layout.ThisPath.bezierPath.DeleteSegment(0);
+                    layout.Path.bezierPath.AddSegmentToEnd(pos);
+                    layout.Path.bezierPath.AddSegmentToEnd(new Vector3(pos.x + 1, pos.y, pos.z));
+                    layout.Path.bezierPath.DeleteSegment(1);
+                    layout.Path.bezierPath.DeleteSegment(0);
                 }
             }
             else
@@ -239,10 +239,10 @@ namespace Roads
                     var obj = Instantiate(PathFactory.Instance.PathPrefab);
                     var layout = obj.GetComponent<PathRoadLayout>();
                     layout.Head = tail;
-                    layout.ThisPath.bezierPath.AddSegmentToEnd(new Vector3(pos.x + 1, pos.y, pos.z));
-                    layout.ThisPath.bezierPath.AddSegmentToEnd(pos);
-                    layout.ThisPath.bezierPath.DeleteSegment(1);
-                    layout.ThisPath.bezierPath.DeleteSegment(0);
+                    layout.Path.bezierPath.AddSegmentToEnd(new Vector3(pos.x + 1, pos.y, pos.z));
+                    layout.Path.bezierPath.AddSegmentToEnd(pos);
+                    layout.Path.bezierPath.DeleteSegment(1);
+                    layout.Path.bezierPath.DeleteSegment(0);
                 }
                 if (GUILayout.Button("Create outgoing road"))
                 {
@@ -250,10 +250,10 @@ namespace Roads
                     var obj = Instantiate(PathFactory.Instance.PathPrefab);
                     var layout = obj.GetComponent<PathRoadLayout>();
                     layout.Tail = tail;
-                    layout.ThisPath.bezierPath.AddSegmentToEnd(pos);
-                    layout.ThisPath.bezierPath.AddSegmentToEnd(new Vector3(pos.x + 1, pos.y, pos.z));
-                    layout.ThisPath.bezierPath.DeleteSegment(1);
-                    layout.ThisPath.bezierPath.DeleteSegment(0);
+                    layout.Path.bezierPath.AddSegmentToEnd(pos);
+                    layout.Path.bezierPath.AddSegmentToEnd(new Vector3(pos.x + 1, pos.y, pos.z));
+                    layout.Path.bezierPath.DeleteSegment(1);
+                    layout.Path.bezierPath.DeleteSegment(0);
                 }
             }
             else

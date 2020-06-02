@@ -23,7 +23,7 @@ namespace Roads
             AttackAngle = attackAngle;
         }
 
-        public RoadChangePath PlanRoadChange(RoadTravel travel, IRoad destination)
+        public RoadChangePath PlanRoadChange(RoadTravel travel, Road destination)
         {
             // Get the closest distance on the destination path to the curent position
             var destDistance = destination.Path.path.GetClosestDistanceAlongPath(travel.CurentPoint);
@@ -48,8 +48,8 @@ namespace Roads
             path.GlobalMidHead = path.GlobalHead - destination.Path.path.GetDirectionAtDistance(destFinalDistance) * curveDistance;
 
             // Update the curve smooth
-            path.ThisPath.bezierPath.ControlPointMode = PathCreation.BezierPath.ControlMode.Aligned;
-            path.ThisPath.bezierPath.ControlPointMode = PathCreation.BezierPath.ControlMode.Automatic;
+            path.Path.bezierPath.ControlPointMode = PathCreation.BezierPath.ControlMode.Aligned;
+            path.Path.bezierPath.ControlPointMode = PathCreation.BezierPath.ControlMode.Automatic;
 
             // Set the travel for the end of the road change
             path.DestinationTravel = new RoadTravel(destination, destFinalDistance);

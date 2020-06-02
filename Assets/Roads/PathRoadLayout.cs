@@ -7,7 +7,7 @@ using System.Linq;
 namespace Roads
 {
     [ExecuteInEditMode]
-    public class PathRoadLayout : MonoBehaviour, IRoad
+    public class PathRoadLayout : Road
     {
         public List<GameObject> Users = new List<GameObject>();
 
@@ -63,53 +63,9 @@ namespace Roads
             }
         }
 
-        public PathCreator Path => ThisPath;
+        public override IEnumerable<RoadTravel> EndTravels => GetTravels();
 
-        public IEnumerable<RoadTravel> EndTravels => GetTravels();
-
-        public Vector3 this[int i]
-        {
-            get
-            {
-                return ThisPath.bezierPath.GetPoint(AnchorToPointIndex(i));
-            }
-            set
-            {
-                if (value != this[i])
-                {
-                    ThisPath.bezierPath.MovePoint(AnchorToPointIndex(i), value, true);
-                    var mode = ThisPath.bezierPath.ControlPointMode;
-                    ThisPath.bezierPath.ControlPointMode = BezierPath.ControlMode.Free;
-                    ThisPath.bezierPath.ControlPointMode = mode;
-                    ThisPath.EditorData.PathTransformed();
-                    ThisPath.TriggerPathUpdate();
-                }
-            }
-        }
-        public PathCreator ThisPath;
-        public PathRoadLayout LeftRoad;
-        public PathRoadLayout RightRoad;
         private bool _update = true;
-
-        IEnumerable<int> GetSegmentsNumPoints()
-        {
-            for (int i = 0; i < ThisPath.bezierPath.NumSegments; i++)
-            {
-                yield return ThisPath.bezierPath.GetPointsInSegment(i).Length;
-            }
-        }
-
-        public int AnchorToPointIndex(int anchorIndex)
-        {
-            if (anchorIndex < 0) anchorIndex += ThisPath.bezierPath.NumAnchorPoints;
-            int index = 0;
-            var arr = GetSegmentsNumPoints().ToArray();
-            for (int i = 0; i < anchorIndex; i++)
-            {
-                index += arr[i] - 1;
-            }
-            return index;
-        }
 
         IEnumerable<RoadTravel> GetTravels()
         {
@@ -119,23 +75,11 @@ namespace Roads
             }
         }
 
-
         // Start is called before the first frame update
         void Start()
         {
-            if (ThisPath == null) ThisPath = GetComponent<PathCreator>();
-            ThisPath.pathUpdated += OnUpdate;
+            Path.pathUpdated += OnUpdate;
             GenerateNodes();
-        }
-
-        public Vector3 GetGlobalPositionPoint(int i)
-        {
-            return this[i] + transform.position;
-        }
-
-        public void SetGlobalPositionPoint(int i, Vector3 value)
-        {
-            this[i] = value - transform.position;
         }
 
         public void GenerateNodes()
@@ -152,8 +96,7 @@ namespace Roads
 
         public void ResetHandle()
         {
-            if (ThisPath == null) ThisPath = GetComponent<PathCreator>();
-            ThisPath.pathUpdated += OnUpdate;
+            Path.pathUpdated += OnUpdate;
             if (_head != null)
             {
                 _head.NodeMoved += OnHeadMoved;
@@ -173,7 +116,7 @@ namespace Roads
 
         private void OnDestroy()
         {
-            ThisPath.pathUpdated -= OnUpdate;
+            Path.pathUpdated -= OnUpdate;
             Head = null;
             Tail = null;
         }
@@ -216,12 +159,12 @@ namespace Roads
             EnableNotifications();
         }
 
-        public void Exitted(GameObject user)
+        public override void Exitted(GameObject user)
         {
             Users.Remove(user);
         }
 
-        public void Entered(GameObject user)
+        public override void Entered(GameObject user)
         {
             Users.Add(user);
         }

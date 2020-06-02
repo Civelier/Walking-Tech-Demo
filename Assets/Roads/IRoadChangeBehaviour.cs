@@ -8,6 +8,6 @@ namespace Roads
 {
     public interface IRoadChangeBehaviour
     {
-        RoadChangePath PlanRoadChange(RoadTravel travel, IRoad destination);
+        RoadChangePath PlanRoadChange(RoadTravel travel, Road destination);
     }
 }

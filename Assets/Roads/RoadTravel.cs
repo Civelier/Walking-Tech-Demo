@@ -10,7 +10,7 @@ namespace Roads
     [Serializable]
     public class RoadTravel
     {
-        public readonly IRoad Road;
+        public readonly Road Road;
         public float Distance;
         public float Length => Road?.Path.path.length ?? 0;
         public Vector3 CurentPoint => Road?.Path.path.GetPointAtDistance(Distance, PathCreation.EndOfPathInstruction.Stop) ?? new Vector3();
@@ -18,7 +18,7 @@ namespace Roads
         public Vector3 CurentDirection => Road?.Path.path.GetDirectionAtDistance(Distance, PathCreation.EndOfPathInstruction.Stop) ?? new Vector3();
         public Vector3 CurentNormal => Road?.Path.path.GetNormalAtDistance(Distance, PathCreation.EndOfPathInstruction.Stop) ?? new Vector3();
 
-        public RoadTravel(IRoad road, float distance = 0)
+        public RoadTravel(Road road, float distance = 0)
         {
             Road = road;
             Distance = distance;

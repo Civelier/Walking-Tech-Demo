@@ -151,12 +151,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 665447f56a734b742a6d7d40da764ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LeftRoad: {fileID: 0}
+  RightRoad: {fileID: 0}
   Users: []
   _head: {fileID: 1309207070}
   _tail: {fileID: 478546235}
-  ThisPath: {fileID: 178816875}
-  LeftRoad: {fileID: 0}
-  RightRoad: {fileID: 0}
 --- !u!114 &178816875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,13 +191,13 @@ MonoBehaviour:
       - {x: -33.509438, y: 0, z: -12.488983}
       - {x: -30.067102, y: 0, z: -10.497574}
       isClosed: 0
-      space: 0
+      space: 2
       controlMode: 3
       autoControlLength: 0.164
       boundsUpToDate: 0
       bounds:
-        m_Center: {x: 0, y: 0, z: 0}
-        m_Extent: {x: 2, y: 0.14433756, z: 0}
+        m_Center: {x: -10.301984, y: 0, z: -6.1891966}
+        m_Extent: {x: 26.492264, y: 0, z: 14.224683}
       perAnchorNormalsAngle:
       - 0
       - 0
@@ -385,13 +384,13 @@ MonoBehaviour:
       - {x: 12.95522, y: 0, z: 2.416504}
       - {x: 15.622105, y: 0, z: 4.0917473}
       isClosed: 0
-      space: 0
+      space: 2
       controlMode: 3
       autoControlLength: 0.164
       boundsUpToDate: 0
       bounds:
-        m_Center: {x: 0, y: 0, z: 0}
-        m_Extent: {x: 2, y: 0.14433756, z: 0}
+        m_Center: {x: -2.0959148, y: 0, z: -4.949336}
+        m_Extent: {x: 17.71802, y: 0, z: 9.041083}
       perAnchorNormalsAngle:
       - 0
       - 0
@@ -433,12 +432,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 665447f56a734b742a6d7d40da764ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LeftRoad: {fileID: 0}
+  RightRoad: {fileID: 7526876119242354146}
   Users: []
   _head: {fileID: 936705746}
   _tail: {fileID: 487367778}
-  ThisPath: {fileID: 818587737}
-  LeftRoad: {fileID: 0}
-  RightRoad: {fileID: 7526876119242354146}
 --- !u!4 &818587739
 Transform:
   m_ObjectHideFlags: 0
@@ -506,13 +504,13 @@ MonoBehaviour:
       - {x: -35.5513, y: 0, z: -6.5305786}
       - {x: -32.973934, y: 0, z: -6.140419}
       isClosed: 0
-      space: 0
+      space: 2
       controlMode: 3
       autoControlLength: 0.164
       boundsUpToDate: 0
       bounds:
-        m_Center: {x: 0, y: 0, z: 0}
-        m_Extent: {x: 2, y: 0.14433756, z: 0}
+        m_Center: {x: -12.689935, y: 0, z: 7.3436003}
+        m_Extent: {x: 25.972385, y: 0, z: 13.931062}
       perAnchorNormalsAngle:
       - 0
       - 0
@@ -556,12 +554,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 665447f56a734b742a6d7d40da764ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LeftRoad: {fileID: 0}
+  RightRoad: {fileID: 0}
   Users: []
   _head: {fileID: 487367778}
   _tail: {fileID: 936705746}
-  ThisPath: {fileID: 835328250}
-  LeftRoad: {fileID: 0}
-  RightRoad: {fileID: 0}
 --- !u!4 &835328252
 Transform:
   m_ObjectHideFlags: 0
@@ -939,9 +936,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PositionOffset: {x: 0, y: 0, z: 0}
-  RotationOffset: {x: 0, y: -90, z: 0}
+  RotationOffset: {x: 0, y: -90, z: 90}
   InitialRoad: {fileID: 7526876119242354146}
-  speed: 50
+  speed: 20
+  LaneChangeProbability: 0.169
   ChangeBehaviour:
     CurveFactor: 0.098
     AttackAngle: 59.9
@@ -1344,12 +1342,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 665447f56a734b742a6d7d40da764ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LeftRoad: {fileID: 818587738}
+  RightRoad: {fileID: 0}
   Users: []
   _head: {fileID: 478546235}
   _tail: {fileID: 1309207070}
-  ThisPath: {fileID: 7526876119242354156}
-  LeftRoad: {fileID: 818587738}
-  RightRoad: {fileID: 0}
 --- !u!4 &7526876119242354147
 Transform:
   m_ObjectHideFlags: 0
@@ -1393,13 +1390,13 @@ MonoBehaviour:
       - {x: 9.945715, y: 0, z: 2.6335192}
       - {x: 11.5695, y: 0, z: 3.3516505}
       isClosed: 0
-      space: 0
+      space: 2
       controlMode: 3
       autoControlLength: 0.164
       boundsUpToDate: 0
       bounds:
-        m_Center: {x: 0, y: 0, z: 0}
-        m_Extent: {x: 2, y: 0.14433756, z: 0}
+        m_Center: {x: -5.868801, y: 0, z: -4.662962}
+        m_Extent: {x: 17.438301, y: 0, z: 8.014612}
       perAnchorNormalsAngle:
       - 0
       - 0
@@ -1421,7 +1418,7 @@ MonoBehaviour:
     keepConstantHandleSize: 0
     showNormalsInVertexMode: 0
     showBezierPathInVertexMode: 0
-    showDisplayOptions: 0
+    showDisplayOptions: 1
     showPathOptions: 1
     showVertexPathDisplayOptions: 0
     showVertexPathOptions: 1
