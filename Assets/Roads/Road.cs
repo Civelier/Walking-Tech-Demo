@@ -19,6 +19,8 @@ namespace Roads
                 return _path;
             }
         }
+
+        public float MaxSpeed = 20;
         public Road LeftRoad;
         public Road RightRoad;
         public abstract IEnumerable<RoadTravel> EndTravels { get; }

@@ -18,6 +18,7 @@ namespace Roads
         Object selected;
         int stateHead = -1;
         int stateTail = -1;
+        int stateSideRoads = -1;
         public override void OnInspectorGUI()
         {
             var t = (PathRoadLayout)target;
@@ -59,6 +60,46 @@ namespace Roads
                 t.EnableNotifications();
                 t.OnUpdate();
             }
+            if (GUILayout.Button("Set left road"))
+            {
+                EditorGUIUtility.ShowObjectPicker<Road>(null, true, "", EditorGUIUtility.GetObjectPickerControlID());
+                stateSideRoads = 0;
+            }
+            if (GUILayout.Button("Remove left road"))
+            {
+                t.LeftRoad.RightRoad = null;
+                t.LeftRoad = null;
+            }
+            if (GUILayout.Button("Set right road"))
+            {
+                EditorGUIUtility.ShowObjectPicker<Road>(null, true, "", EditorGUIUtility.GetObjectPickerControlID());
+                stateSideRoads = 1;
+            }
+            if (GUILayout.Button("Remove right road"))
+            {
+                t.RightRoad.LeftRoad = null;
+                t.RightRoad = null;
+            }
+
+            if (Event.current.commandName == "ObjectSelectorUpdated")
+            {
+                selected = EditorGUIUtility.GetObjectPickerObject();
+                switch (stateSideRoads)
+                {
+                    case 0:
+                        t.LeftRoad = ((GameObject)selected).GetComponent<Road>();
+                        t.LeftRoad.RightRoad = t;
+                        break;
+                    case 1:
+                        t.RightRoad = ((GameObject)selected).GetComponent<Road>();
+                        t.RightRoad.LeftRoad = t;
+                        break;
+                    default:
+                        break;
+                }
+                stateSideRoads = -1;
+            }
+
             GUILayout.Space(2);
             if (t.Head != null)
             {
@@ -101,7 +142,11 @@ namespace Roads
                         closest = closest ?? node;
                         closest = ((node.Position - t.Head.Position).magnitude < (closest.Position - t.Head.Position).magnitude) ? node : closest;
                     }
-                    if (closest != null) head.MergeTo(closest);
+                    if (closest != null)
+                    {
+                        head.MergeTo(closest);
+                        Destroy(head.gameObject);
+                    }
                 }
 
                 if (Event.current.commandName == "ObjectSelectorClosed")
@@ -124,7 +169,7 @@ namespace Roads
                             {
                                 var o = ((GameObject)selected).GetComponent<PathNode>();
                                 head.MergeTo(o);
-                                Destroy(target);
+                                Destroy(head.gameObject);
                             }
                             break;
                         default:
@@ -143,6 +188,7 @@ namespace Roads
                     layout.Path.bezierPath.AddSegmentToEnd(pos);
                     layout.Path.bezierPath.DeleteSegment(1);
                     layout.Path.bezierPath.DeleteSegment(0);
+                    layout.MaxSpeed = t.MaxSpeed;
                 }
                 if (GUILayout.Button("Create outgoing road"))
                 {
@@ -154,6 +200,7 @@ namespace Roads
                     layout.Path.bezierPath.AddSegmentToEnd(new Vector3(pos.x + 1, pos.y, pos.z));
                     layout.Path.bezierPath.DeleteSegment(1);
                     layout.Path.bezierPath.DeleteSegment(0);
+                    layout.MaxSpeed = t.MaxSpeed;
                 }
             }
             else
@@ -201,7 +248,11 @@ namespace Roads
                         closest = closest ?? node;
                         closest = ((node.Position - t.Tail.Position).magnitude < (closest.Position - t.Tail.Position).magnitude) ? node : closest;
                     }
-                    if (closest != null) tail.MergeTo(closest);
+                    if (closest != null)
+                    {
+                        tail.MergeTo(closest);
+                        Destroy(tail.gameObject);
+                    }
                 }
 
                 if (Event.current.commandName == "ObjectSelectorClosed")
@@ -224,7 +275,7 @@ namespace Roads
                             {
                                 var o = ((GameObject)selected).GetComponent<PathNode>();
                                 tail.MergeTo(o);
-                                Destroy(target);
+                                Destroy(tail.gameObject);
                             }
                             break;
                         default:

@@ -66,13 +66,14 @@ namespace Roads
 #else
         public IRoadChangeBehaviour ChangeBehaviour = new BasicRoadChangeBehaviour();
 #endif
-        float? _laneChangeDistance = null;
+        protected float? _laneChangeDistance = null;
         private bool _changeLaneLeftQueued = false;
         private bool _changeLaneRightQueued = false;
 
         public RoadTravelChangeEventHandler TravelChanged;
+        private bool _laneSide;
 
-        void OnTravelChanged()
+        protected virtual void OnTravelChanged()
         {
             RandomLaneChange(LaneChangeProbability);
             RoadTravelChangeEventHandler handler = TravelChanged;
@@ -83,7 +84,22 @@ namespace Roads
         {
             if (UnityEngine.Random.value <= probability)
             {
-                _laneChangeDistance = UnityEngine.Random.Range(Travel.Distance, 0.75f * Travel.Length);
+                var r = UnityEngine.Random.Range(Travel.Distance + 0.25f * Travel.Distance, 0.75f * Travel.Length);
+                if (Travel.Road.LeftRoad != null && Travel.Road.RightRoad != null)
+                {
+                    int v = UnityEngine.Random.Range(0, 1);
+                    _laneSide = v == 1;
+                }
+                else
+                {
+                    if (Travel.Road.LeftRoad != null) _laneSide = true;
+                    if (Travel.Road.RightRoad != null) _laneSide = false;
+                }
+                if (ChangeBehaviour.IsPossible(new RoadTravel(Travel.Road, r), _laneSide ? Travel.Road.LeftRoad : Travel.Road.RightRoad))
+                {
+                    _laneChangeDistance = r;
+                }
+                else _laneChangeDistance = null;
             }
         }
 
@@ -106,7 +122,7 @@ namespace Roads
             Travel = new RoadTravel(InitialRoad);
         }
 
-        void Update()
+        public void BasicUpdate()
         {
             if (Travel != null)
             {
@@ -135,17 +151,8 @@ namespace Roads
                         }
                     }
                 }
-                if (r.LeftRoad != null && r.RightRoad != null)
-                {
-                    int v = UnityEngine.Random.Range(0, 1);
-                    LaneChange(v == 1);
-                }
-                else
-                {
-                    if (r.LeftRoad != null) LaneChange(true);
-                    if (r.RightRoad != null) LaneChange(false);
-                }
-                
+                LaneChange(_laneSide);
+
                 if (!Travel.MoveAtSpeed(speed))
                 {
                     if (Travel.Road.EndTravels.Count() == 0)
@@ -159,6 +166,11 @@ namespace Roads
                 transform.position = Travel.CurentPoint + PositionOffset;
                 transform.rotation = Quaternion.Euler(Travel.CurentRotation.eulerAngles + RotationOffset);
             }
+        }
+
+        void Update()
+        {
+            BasicUpdate();
         }
 
         public void QueueChangeLaneRight()

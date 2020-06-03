@@ -16,11 +16,14 @@ namespace Roads
         [Range(1, 89)]
         [Tooltip("The angle to the end point relative to the current orientation")]
         public float AttackAngle;
+        public float MaxSpeedPercentEditor = 0.8f;
+        public float MaxSpeedPercent => MaxSpeedPercentEditor;
 
-        public BasicRoadChangeBehaviour(float curveFactor = 0.2f, float attackAngle = 75)
+        public BasicRoadChangeBehaviour(float curveFactor = 0.2f, float attackAngle = 75, float maxSpeedPercent = 0.8f)
         {
             CurveFactor = curveFactor;
             AttackAngle = attackAngle;
+            MaxSpeedPercentEditor = maxSpeedPercent;
         }
 
         public RoadChangePath PlanRoadChange(RoadTravel travel, Road destination)
@@ -40,6 +43,7 @@ namespace Roads
             
             // Generate the road change object
             RoadChangePath path = UnityEngine.Object.Instantiate(PathFactory.Instance.RoadChangePrefab).GetComponent<RoadChangePath>();
+            path.MaxSpeed = travel.Road.MaxSpeed * MaxSpeedPercentEditor;
             
             // Set the points positions
             path.GlobalTail = travel.CurentPoint;
@@ -54,6 +58,21 @@ namespace Roads
             // Set the travel for the end of the road change
             path.DestinationTravel = new RoadTravel(destination, destFinalDistance);
             return path;
+        }
+
+        public bool IsPossible(RoadTravel travel, Road destination)
+        {
+            if (destination == null) return false;
+            // Get the closest distance on the destination path to the curent position
+            var destDistance = destination.Path.path.GetClosestDistanceAlongPath(travel.CurentPoint);
+            // Get the point of the destination path at the distance
+            var destPoint = destination.Path.path.GetPointAtDistance(destDistance, PathCreation.EndOfPathInstruction.Stop);
+            // Get distance between the two points
+            var delta = Vector3.Distance(destPoint, travel.CurentPoint);
+            // Get the final distance on the destination path
+            var destFinalDistance = delta * Mathf.Tan(Mathf.Deg2Rad * AttackAngle) + destDistance;
+            // If the final distance is more than the length of the destination path, it is not possible to change path
+            return destFinalDistance <= destination.Path.path.length;
         }
     }
 }
