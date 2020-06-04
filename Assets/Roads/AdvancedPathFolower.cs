@@ -67,8 +67,33 @@ namespace Roads
         public IRoadChangeBehaviour ChangeBehaviour = new BasicRoadChangeBehaviour();
 #endif
         protected float? _laneChangeDistance = null;
+
         private bool _changeLaneLeftQueued = false;
+        protected virtual bool changeLaneLeftQueued
+        {
+            get => _changeLaneLeftQueued;
+            set
+            {
+                if (value)
+                {
+                    _changeLaneRightQueued = false;
+                }
+                _changeLaneLeftQueued = value;
+            }
+        }
         private bool _changeLaneRightQueued = false;
+        protected virtual bool changeLaneRightQueued 
+        {
+            get => _changeLaneRightQueued;
+            set
+            { 
+                if (value)
+                {
+                    _changeLaneLeftQueued = false;
+                }
+                _changeLaneRightQueued = value;
+            }
+        }
 
         public RoadTravelChangeEventHandler TravelChanged;
         private bool _laneSide;
@@ -82,7 +107,7 @@ namespace Roads
 
         void RandomLaneChange(float probability)
         {
-            if (UnityEngine.Random.value <= probability)
+            if (UnityEngine.Random.value < probability)
             {
                 var r = UnityEngine.Random.Range(Travel.Distance + 0.25f * Travel.Distance, 0.75f * Travel.Length);
                 if (Travel.Road.LeftRoad != null && Travel.Road.RightRoad != null)
@@ -103,7 +128,13 @@ namespace Roads
             }
         }
 
-        void LaneChange(bool left)
+        protected virtual void Move(Vector3 pos, Quaternion rotation)
+        {
+            transform.position = pos;
+            transform.rotation = rotation;
+        }
+
+        protected virtual void LaneChange(bool left)
         {
             if (_laneChangeDistance != null)
             {
@@ -127,7 +158,7 @@ namespace Roads
             if (Travel != null)
             {
                 var r = Travel.Road;
-                if (_changeLaneRightQueued)
+                if (changeLaneRightQueued)
                 {
                     if (r.RightRoad != null)
                     {
@@ -135,11 +166,11 @@ namespace Roads
                         if (c != null)
                         {
                             Travel = new RoadTravel(c);
-                            _changeLaneRightQueued = false;
+                            changeLaneRightQueued = false;
                         }
                     }
                 }
-                if (_changeLaneLeftQueued)
+                if (changeLaneLeftQueued)
                 {
                     if (r.LeftRoad != null)
                     {
@@ -147,7 +178,7 @@ namespace Roads
                         if (c != null)
                         {
                             Travel = new RoadTravel(c);
-                            _changeLaneLeftQueued = false;
+                            changeLaneLeftQueued = false;
                         }
                     }
                 }
@@ -163,8 +194,7 @@ namespace Roads
                     Travel = ChooseRoadBehaviour.ChoosePath(Travel.Road.EndTravels);
                     Travel.Distance += oldDistance;
                 }
-                transform.position = Travel.CurentPoint + PositionOffset;
-                transform.rotation = Quaternion.Euler(Travel.CurentRotation.eulerAngles + RotationOffset);
+                Move(Travel.CurentPoint + PositionOffset, Quaternion.Euler(Travel.CurentRotation.eulerAngles + RotationOffset));
             }
         }
 
@@ -175,14 +205,12 @@ namespace Roads
 
         public void QueueChangeLaneRight()
         {
-            _changeLaneRightQueued = true;
-            _changeLaneLeftQueued = false;
+            changeLaneRightQueued = true;
         }
 
         public void QueueChangeLaneLeft()
         {
-            _changeLaneLeftQueued = true;
-            _changeLaneRightQueued = false;
+            changeLaneLeftQueued = true;
         }
 
         // If the path changes during the game, update the distance travelled so that the follower's position on the new path
