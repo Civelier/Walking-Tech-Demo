@@ -66,8 +66,8 @@ namespace Roads
 #else
         public IRoadChangeBehaviour ChangeBehaviour = new BasicRoadChangeBehaviour();
 #endif
+        bool _changingLanes = false;
         protected float? _laneChangeDistance = null;
-
         private bool _changeLaneLeftQueued = false;
         protected virtual bool changeLaneLeftQueued
         {
@@ -100,6 +100,12 @@ namespace Roads
 
         protected virtual void OnTravelChanged()
         {
+            if (!_laneChangeDistance.HasValue && _changingLanes)
+            {
+                _changingLanes = false;
+                changeLaneLeftQueued = false;
+                changeLaneRightQueued = false;
+            }
             RandomLaneChange(LaneChangeProbability);
             RoadTravelChangeEventHandler handler = TravelChanged;
             handler?.Invoke(this, new RoadTravelChangeEventArgs(Travel));
@@ -153,12 +159,12 @@ namespace Roads
             Travel = new RoadTravel(InitialRoad);
         }
 
-        public void BasicUpdate()
+        public virtual void BasicUpdate()
         {
             if (Travel != null)
             {
                 var r = Travel.Road;
-                if (changeLaneRightQueued)
+                if (changeLaneRightQueued && !_changingLanes)
                 {
                     if (r.RightRoad != null)
                     {
@@ -166,11 +172,12 @@ namespace Roads
                         if (c != null)
                         {
                             Travel = new RoadTravel(c);
-                            changeLaneRightQueued = false;
+                            _changingLanes = true;
+                            //changeLaneRightQueued = false;
                         }
                     }
                 }
-                if (changeLaneLeftQueued)
+                if (changeLaneLeftQueued && !_changingLanes)
                 {
                     if (r.LeftRoad != null)
                     {
@@ -178,7 +185,8 @@ namespace Roads
                         if (c != null)
                         {
                             Travel = new RoadTravel(c);
-                            changeLaneLeftQueued = false;
+                            _changingLanes = true;
+                            //changeLaneLeftQueued = false;
                         }
                     }
                 }

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4391770651569014569}
   - component: {fileID: 6765246591552615295}
   - component: {fileID: 2873832413096827782}
+  - component: {fileID: 5957781525367175336}
   m_Layer: 0
   m_Name: Car_3_Purple
   m_TagString: Car
@@ -124,7 +125,7 @@ MonoBehaviour:
   ChangeLaneRight: {fileID: 8726147191034908309}
   Car: {fileID: 4391770651569014569}
   Body: {fileID: 2873832413096827782}
-  Anticipation: 0.4
+  SpeedProvider: {fileID: 5957781525367175336}
 --- !u!114 &4391770651569014569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,9 +138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 599fd2e3309020d469aa6a5c005921e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Info:
-    Situation: 1
   Trigger: {fileID: 6765246591552615295}
+  Situation: 1
   Car: {fileID: 4391770651569014614}
 --- !u!65 &6765246591552615295
 BoxCollider:
@@ -149,7 +149,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4391770651569014612}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.045498952, y: 0.01358262, z: 0.021373872}
@@ -169,7 +169,34 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 3
+  m_CollisionDetection: 0
+--- !u!114 &5957781525367175336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4391770651569014612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23966af7035ea0048a47af25322326ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Acceleration: 12
+  Decceleration: 24
+  Brake: 80
+  MaxSpeed: 40
+  FrontTrigger: {fileID: 8726147192033763871}
+  FrontTriggerTooClose: {fileID: 8726147192565665064}
+  ChangeLaneLeft: {fileID: 8726147192512729359}
+  ChangeLaneRight: {fileID: 8726147191034908309}
+  Car: {fileID: 4391770651569014569}
+  Body: {fileID: 2873832413096827782}
+  CarMove: {fileID: 4391770651569014614}
+  OtherCars: []
+  LeftCars: []
+  RightCars: []
+  Anticipation: 0.4
 --- !u!1 &4391770651569030936
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,9 +574,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 599fd2e3309020d469aa6a5c005921e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Info:
-    Situation: 256
   Trigger: {fileID: 8726147191034908306}
+  Situation: 256
   Car: {fileID: 4391770651569014614}
 --- !u!1 &8726147192033763866
 GameObject:
@@ -594,8 +620,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.1421062, y: 0.01, z: 0.019007111}
-  m_Center: {x: 0.08866056, y: 3.8770068e-23, z: 3.0588033e-16}
+  m_Size: {x: 0.12289879, y: 0.01, z: 0.019007111}
+  m_Center: {x: 0.09826423, y: 4.494235e-23, z: 3.8414384e-16}
 --- !u!114 &8726147192033763871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -608,9 +634,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 599fd2e3309020d469aa6a5c005921e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Info:
-    Situation: 4096
   Trigger: {fileID: 8726147192033763868}
+  Situation: 4096
   Car: {fileID: 4391770651569014614}
 --- !u!1 &8726147192512729354
 GameObject:
@@ -669,9 +694,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 599fd2e3309020d469aa6a5c005921e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Info:
-    Situation: 16
   Trigger: {fileID: 8726147192512729356}
+  Situation: 16
   Car: {fileID: 4391770651569014614}
 --- !u!1 &8726147192565665111
 GameObject:
@@ -716,8 +740,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.022786, y: 0.01, z: 0.019007111}
-  m_Center: {x: 0.034452945, y: 8.5468496e-24, z: -3.027317e-17}
+  m_Size: {x: 0.03978856, y: 0.01, z: 0.019007111}
+  m_Center: {x: 0.04295421, y: 2.0039618e-23, z: 1.7693396e-16}
 --- !u!114 &8726147192565665064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -730,7 +754,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 599fd2e3309020d469aa6a5c005921e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Info:
-    Situation: 65536
   Trigger: {fileID: 8726147192565665065}
+  Situation: 65536
   Car: {fileID: 4391770651569014614}

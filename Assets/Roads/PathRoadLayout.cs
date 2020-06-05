@@ -168,5 +168,10 @@ namespace Roads
         {
             Users.Add(user);
         }
+
+        public override bool ContainsUser(GameObject user)
+        {
+            return Users.Contains(user);
+        }
     }
 }

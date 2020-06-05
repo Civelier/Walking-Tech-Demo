@@ -12,6 +12,7 @@ namespace Roads
     {
         public RoadTravel InitialTravel;
         public RoadTravel DestinationTravel;
+        GameObject _user;
 
         public Vector3 Head
         {
@@ -77,11 +78,19 @@ namespace Roads
 
         public override void Exitted(GameObject user)
         {
+            InitialTravel.Road.Exitted(user);
             Destroy(gameObject);
         }
 
         public override void Entered(GameObject user)
         {
+            InitialTravel.Road.Entered(user);
+            _user = user;
+        }
+
+        public override bool ContainsUser(GameObject user)
+        {
+            return user == _user;
         }
     }
 }

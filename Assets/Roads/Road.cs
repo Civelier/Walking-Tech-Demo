@@ -51,6 +51,8 @@ namespace Roads
             }
         }
 
+        public abstract bool ContainsUser(GameObject user);
+
         protected IEnumerable<int> GetSegmentsNumPoints()
         {
             for (int i = 0; i < Path.bezierPath.NumSegments; i++)
@@ -79,6 +81,17 @@ namespace Roads
         public void SetGlobalPositionPoint(int i, Vector3 value)
         {
             this[i] = value - transform.position;
+        }
+
+        public bool FindUser(GameObject user, int level)
+        {
+            if (ContainsUser(user)) return true;
+            if (level == 1) return false;
+            foreach (var travel in EndTravels)
+            {
+                if (travel.Road.FindUser(user, level - 1)) return true;
+            }
+            return false;
         }
     }
 }

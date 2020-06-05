@@ -56,6 +56,7 @@ namespace Roads
             path.Path.bezierPath.ControlPointMode = PathCreation.BezierPath.ControlMode.Automatic;
 
             // Set the travel for the end of the road change
+            path.InitialTravel = travel;
             path.DestinationTravel = new RoadTravel(destination, destFinalDistance);
             return path;
         }

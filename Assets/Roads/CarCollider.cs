@@ -7,16 +7,33 @@ using UnityEngine;
 
 namespace Roads
 {
+    public enum CarSituation
+    {
+        CarIsThere = 0x00001,
+        CarWillChangeLaneLeft = 0x00010,
+        CarWillChangeLaneRight = 0x00100,
+        Trigger = 0x01000,
+        TriggerTooClose = 0x10000,
+        SlowDown = 0x00111,
+    }
+
     [RequireComponent(typeof(BoxCollider))]
     public class CarCollider : MonoBehaviour
     {
-        public CarMovementInfo Info;
         public BoxCollider Trigger;
+        public CarSituation Situation;
+        public bool NeedToSlowDown => Active && (Situation | CarSituation.SlowDown) == CarSituation.SlowDown;
+        public bool Active
+        {
+            get => Trigger.enabled;
+            set => Trigger.enabled = value;
+        }
         protected virtual void OnStart()
         {
             if (Trigger == null) Trigger = GetComponent<BoxCollider>();
             Trigger.isTrigger = true;
             if (Car == null) Car = GetComponentInParent<CarMovement>();
+
         }
 
         void Start()
@@ -30,6 +47,14 @@ namespace Roads
         public CarMovement Car;
 
         public float Speed => Car.speed;
+        public Vector3 WorldFront => Trigger.bounds.center + new Vector3(Trigger.bounds.extents.x, 0, 0);
+        public Vector3 LocalFront => transform.worldToLocalMatrix.MultiplyPoint(WorldFront);
+
+        public Vector3 WorldBack => Trigger.bounds.center - new Vector3(Trigger.bounds.extents.x, 0, 0);
+        public Vector3 LocalBack => transform.worldToLocalMatrix.MultiplyPoint(WorldBack);
+
+        public float LocalLength => Vector3.Distance(LocalBack, LocalFront);
+        public float WorldLength => Vector3.Distance(WorldBack, WorldFront);
 
         bool ValidCollider(Collider collider)
         {
@@ -38,6 +63,17 @@ namespace Roads
                 return c.Car != Car;
             }
             return true;
+        }
+
+        public float GetBackToBackPercent(CarCollider collider)
+        {
+            return GetBackToBackDistance(collider) / LocalLength;
+        }
+
+        public float GetBackToBackDistance(CarCollider collider)
+        {
+            var localOtherPosition = transform.worldToLocalMatrix.MultiplyPoint(collider.WorldBack);
+            return localOtherPosition.x - LocalBack.x;
         }
 
         protected void OnTriggerEntered(Collider collider)
@@ -70,10 +106,10 @@ namespace Roads
             if (ValidCollider(other))  OnTriggerExitted(other);
         }
 
-        //private void OnTriggerStay(Collider other)
-        //{
-        //    Debug.Log("Trigger stay");
-        //    OnTriggerStayed(other);
-        //}
+        private void OnTriggerStay(Collider other)
+        {
+            Debug.Log("Trigger stay");
+            if (ValidCollider(other)) OnTriggerStayed(other);
+        }
     }
 }
