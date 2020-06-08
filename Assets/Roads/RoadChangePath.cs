@@ -76,6 +76,18 @@ namespace Roads
 
         public override IEnumerable<RoadTravel> EndTravels => new[]{ DestinationTravel };
 
+        public override IEnumerable<CarMovement> FindCars(int level)
+        {
+            if (_user.TryGetComponent(out CarMovement m)) yield return m;
+            if (level - 1 > 0)
+            {
+                foreach (var car in DestinationTravel.Road.FindCars(level - 1))
+                {
+                    yield return car;
+                }
+            }
+        }
+
         public override void Exitted(GameObject user)
         {
             InitialTravel.Road.Exitted(user);

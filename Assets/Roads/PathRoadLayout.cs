@@ -75,6 +75,21 @@ namespace Roads
             }
         }
 
+        public override IEnumerable<CarMovement> FindCars(int level)
+        {
+            foreach (var car in Users)
+            {
+                if (car.TryGetComponent(out CarMovement m)) yield return m;
+            }
+            if (level - 1 > 0)
+            {
+                foreach (var car in base.FindCars(level))
+                {
+                    yield return car;
+                }
+            }
+        }
+
         // Start is called before the first frame update
         void Start()
         {

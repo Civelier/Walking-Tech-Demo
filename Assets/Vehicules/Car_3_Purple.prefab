@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 4391770651569014614}
   - component: {fileID: 4391770651569014569}
   - component: {fileID: 6765246591552615295}
+  - component: {fileID: 9007708003390313063}
   - component: {fileID: 2873832413096827782}
-  - component: {fileID: 5957781525367175336}
   m_Layer: 0
   m_Name: Car_3_Purple
   m_TagString: Car
@@ -125,7 +125,7 @@ MonoBehaviour:
   ChangeLaneRight: {fileID: 8726147191034908309}
   Car: {fileID: 4391770651569014569}
   Body: {fileID: 2873832413096827782}
-  SpeedProvider: {fileID: 5957781525367175336}
+  SpeedProvider: {fileID: 9007708003390313063}
 --- !u!114 &4391770651569014569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,11 +149,55 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4391770651569014612}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.045498952, y: 0.01358262, z: 0.021373872}
   m_Center: {x: -0.000103079714, y: 0.0009655473, z: 4.656613e-10}
+--- !u!114 &9007708003390313063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4391770651569014612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 621493afe43c42c4b9c64aa354d666f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Acceleration: 12
+  Decceleration: 24
+  Brake: 80
+  MaxSpeed: 40
+  Anticipation: 0.4
+  BrakeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  ScanDistanceFront: 30
+  OptimalDistanceToOtherCars: 10
+  NearbyCars: []
 --- !u!54 &2873832413096827782
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -170,33 +214,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5957781525367175336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4391770651569014612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23966af7035ea0048a47af25322326ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Acceleration: 12
-  Decceleration: 24
-  Brake: 80
-  MaxSpeed: 40
-  FrontTrigger: {fileID: 8726147192033763871}
-  FrontTriggerTooClose: {fileID: 8726147192565665064}
-  ChangeLaneLeft: {fileID: 8726147192512729359}
-  ChangeLaneRight: {fileID: 8726147191034908309}
-  Car: {fileID: 4391770651569014569}
-  Body: {fileID: 2873832413096827782}
-  CarMove: {fileID: 4391770651569014614}
-  OtherCars: []
-  LeftCars: []
-  RightCars: []
-  Anticipation: 0.4
 --- !u!1 &4391770651569030936
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,7 +551,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8726147191034908307
 Transform:
   m_ObjectHideFlags: 0
@@ -594,7 +611,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8726147192033763869
 Transform:
   m_ObjectHideFlags: 0
@@ -654,7 +671,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8726147192512729357
 Transform:
   m_ObjectHideFlags: 0
@@ -714,7 +731,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8726147192565665110
 Transform:
   m_ObjectHideFlags: 0

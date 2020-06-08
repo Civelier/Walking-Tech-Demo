@@ -28,12 +28,13 @@ namespace Roads
 
         public RoadChangePath PlanRoadChange(RoadTravel travel, Road destination)
         {
+            if (destination == null) return null;
             // Get the closest distance on the destination path to the curent position
-            var destDistance = destination.Path.path.GetClosestDistanceAlongPath(travel.CurentPoint);
+            var destDistance = destination.Path.path.GetClosestDistanceAlongPath(travel.CurrentPoint);
             // Get the point of the destination path at the distance
             var destPoint = destination.Path.path.GetPointAtDistance(destDistance, PathCreation.EndOfPathInstruction.Stop);
             // Get distance between the two points
-            var delta = Vector3.Distance(destPoint, travel.CurentPoint);
+            var delta = Vector3.Distance(destPoint, travel.CurrentPoint);
             // Get the final distance on the destination path
             var destFinalDistance = delta * Mathf.Tan(Mathf.Deg2Rad * AttackAngle) + destDistance;
             // If the final distance is more than the length of the destination path, it is not possible to change path
@@ -46,8 +47,8 @@ namespace Roads
             path.MaxSpeed = travel.Road.MaxSpeed * MaxSpeedPercentEditor;
             
             // Set the points positions
-            path.GlobalTail = travel.CurentPoint;
-            path.GlobalMidTail = path.GlobalTail + travel.CurentDirection * curveDistance;
+            path.GlobalTail = travel.CurrentPoint;
+            path.GlobalMidTail = path.GlobalTail + travel.CurrentDirection * curveDistance;
             path.GlobalHead = destination.Path.path.GetPointAtDistance(destFinalDistance);
             path.GlobalMidHead = path.GlobalHead - destination.Path.path.GetDirectionAtDistance(destFinalDistance) * curveDistance;
 
@@ -61,15 +62,20 @@ namespace Roads
             return path;
         }
 
+        public RoadChangePath PlanRoadChange(Road initial, float distance, Road destination)
+        {
+            return PlanRoadChange(new RoadTravel(initial, distance), destination);
+        }
+
         public bool IsPossible(RoadTravel travel, Road destination)
         {
             if (destination == null) return false;
             // Get the closest distance on the destination path to the curent position
-            var destDistance = destination.Path.path.GetClosestDistanceAlongPath(travel.CurentPoint);
+            var destDistance = destination.Path.path.GetClosestDistanceAlongPath(travel.CurrentPoint);
             // Get the point of the destination path at the distance
             var destPoint = destination.Path.path.GetPointAtDistance(destDistance, PathCreation.EndOfPathInstruction.Stop);
             // Get distance between the two points
-            var delta = Vector3.Distance(destPoint, travel.CurentPoint);
+            var delta = Vector3.Distance(destPoint, travel.CurrentPoint);
             // Get the final distance on the destination path
             var destFinalDistance = delta * Mathf.Tan(Mathf.Deg2Rad * AttackAngle) + destDistance;
             // If the final distance is more than the length of the destination path, it is not possible to change path

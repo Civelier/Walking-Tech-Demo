@@ -414,6 +414,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Car_3_Purple (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4391770651569014612, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4391770651569014614, guid: 07d8707f92256104d8b854f92f985ade,
         type: 3}
       propertyPath: InitialRoad
@@ -507,6 +512,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Car_3_Purple (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391770651569014612, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4391770651569014614, guid: 07d8707f92256104d8b854f92f985ade,
         type: 3}
@@ -1172,6 +1182,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Car_3_Purple (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4391770651569014612, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4391770651569014614, guid: 07d8707f92256104d8b854f92f985ade,
         type: 3}
       propertyPath: InitialRoad
@@ -1264,7 +1279,7 @@ PrefabInstance:
     - target: {fileID: 4391770651569014614, guid: 07d8707f92256104d8b854f92f985ade,
         type: 3}
       propertyPath: LaneChangeProbability
-      value: 0.367
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4391770651569343438, guid: 07d8707f92256104d8b854f92f985ade,
         type: 3}
@@ -1319,6 +1334,86 @@ PrefabInstance:
     - target: {fileID: 4391770651569343438, guid: 07d8707f92256104d8b854f92f985ade,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6765246591552615295, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.16612953
+      objectReference: {fileID: 0}
+    - target: {fileID: 6765246591552615295, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.013582619
+      objectReference: {fileID: 0}
+    - target: {fileID: 6765246591552615295, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 0.09999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 6765246591552615295, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0.030769672
+      objectReference: {fileID: 0}
+    - target: {fileID: 6765246591552615295, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.00096554693
+      objectReference: {fileID: 0}
+    - target: {fileID: 6765246591552615295, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 9.347054e-17
+      objectReference: {fileID: 0}
+    - target: {fileID: 6765246591552615295, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6765246591552615295, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8726147191034908304, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8726147192033763866, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8726147192512729354, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8726147192565665111, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9007708003390313063, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9007708003390313063, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: EditorExtraForward
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9007708003390313063, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: EditorExtraBack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9007708003390313063, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: EditorExtraSides
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1548,6 +1643,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Car_3_Purple (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391770651569014612, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4391770651569014614, guid: 07d8707f92256104d8b854f92f985ade,
         type: 3}
@@ -1840,6 +1940,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Car_3_Purple (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 4391770651569014612, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4391770651569014614, guid: 07d8707f92256104d8b854f92f985ade,
         type: 3}
       propertyPath: InitialRoad
@@ -2030,6 +2135,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Car_3_Purple (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391770651569014612, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4391770651569014614, guid: 07d8707f92256104d8b854f92f985ade,
         type: 3}
@@ -2332,6 +2442,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Car_3_Purple (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 4391770651569014612, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4391770651569014614, guid: 07d8707f92256104d8b854f92f985ade,
         type: 3}
       propertyPath: InitialRoad
@@ -2630,6 +2745,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Car_3_Purple (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 4391770651569014612, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4391770651569014614, guid: 07d8707f92256104d8b854f92f985ade,
         type: 3}
       propertyPath: InitialRoad
@@ -2713,6 +2833,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Car_3_Purple (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391770651569014612, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4391770651569014614, guid: 07d8707f92256104d8b854f92f985ade,
         type: 3}
@@ -2844,6 +2969,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Car_3_Purple (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391770651569014612, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4391770651569014614, guid: 07d8707f92256104d8b854f92f985ade,
         type: 3}
@@ -3129,6 +3259,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Car_3_Purple (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391770651569014612, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4391770651569014614, guid: 07d8707f92256104d8b854f92f985ade,
         type: 3}

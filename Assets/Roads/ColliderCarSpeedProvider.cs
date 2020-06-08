@@ -9,17 +9,13 @@ namespace Roads
 {
     public class ColliderCarSpeedProvider : CarSpeedProvider
     {
-        public float Acceleration = 8;
-        public float Decceleration = 15;
-        public float Brake = 40;
-        public float MaxSpeed = 40;
+        //public float MaxSpeed = 40;
         public CarCollider FrontTrigger;
         public CarCollider FrontTriggerTooClose;
         public CarCollider ChangeLaneLeft;
         public CarCollider ChangeLaneRight;
         public CarCollider Car;
         public Rigidbody Body;
-        public CarMovement CarMove;
 
         private void OnTriggerStayed(Collider collider)
         {
@@ -62,7 +58,7 @@ namespace Roads
             }
         }
 
-        float CurrentMaxSpeed => Mathf.Min(MaxSpeed, CarMove.Travel.Road.MaxSpeed);
+        
         float NewSpeedDistance => _laneChangeDistance ?? CarMove.Travel.Length;
         float NewTravelSpeed => _laneChangeDistance == null ? CarMove.Travel.Road.EndTravels.FirstOrDefault()?.Road.MaxSpeed ?? 0 : CurrentMaxSpeed * CarMove.ChangeBehaviour.MaxSpeedPercent;
         float DeltaSpeed => CarMove.Travel.Road.MaxSpeed - NewTravelSpeed;
@@ -74,7 +70,7 @@ namespace Roads
         public List<CarCollider> RightCars = new List<CarCollider>();
         bool TooClose = false;
 
-        float TargetSpeed
+        protected override float TargetSpeed
         {
             get
             {
@@ -123,13 +119,8 @@ namespace Roads
             }
         }
 
-        public float Anticipation = 0.8f;
-        private bool brake;
-        private float speed;
-
         void Start()
         {
-            if (CarMove == null) CarMove = GetComponent<CarMovement>();
             if (Body == null) Body = GetComponent<Rigidbody>();
             if (Car == null) Car = GetComponent<CarCollider>();
             CarMove.TravelChanged += OnTravelChanged;
@@ -178,7 +169,7 @@ namespace Roads
                 RightCars.Clear();
             }
         }
-        
+
         float ExpEasing(float value)
         {
             return Mathf.Pow(2, 10 * (value - 1)) - 0.001f;

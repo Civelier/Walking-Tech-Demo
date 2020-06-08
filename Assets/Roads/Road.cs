@@ -83,15 +83,35 @@ namespace Roads
             this[i] = value - transform.position;
         }
 
+        public virtual IEnumerable<CarMovement> FindCars(int level)
+        {
+            foreach (var travel in EndTravels)
+            {
+                foreach (var car in travel.Road.FindCars(level - 1))
+                {
+                    yield return car;
+                }
+            }
+        }
+
         public bool FindUser(GameObject user, int level)
         {
             if (ContainsUser(user)) return true;
             if (level == 1) return false;
-            foreach (var travel in EndTravels)
+            bool result = false;
+            Parallel.ForEach(EndTravels, (travel, state) =>
             {
-                if (travel.Road.FindUser(user, level - 1)) return true;
-            }
-            return false;
+                if (travel.Road.FindUser(user, level - 1))
+                {
+                    result = true;
+                    state.Break();
+                }
+            });
+            //foreach (var travel in EndTravels)
+            //{
+            //    if (travel.Road.FindUser(user, level - 1)) return true;
+            //}
+            return result;
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Roads
         public Vector3 PositionOffset;
         public Vector3 RotationOffset;
         private RoadTravel _travel;
-        public RoadTravel Travel
+        public virtual RoadTravel Travel
         {
             get => _travel;
             set
@@ -95,6 +95,7 @@ namespace Roads
             }
         }
 
+        public Queue<RoadTravel> TravelPlan = new Queue<RoadTravel>();
         public RoadTravelChangeEventHandler TravelChanged;
         private bool _laneSide;
 
@@ -106,9 +107,18 @@ namespace Roads
                 changeLaneLeftQueued = false;
                 changeLaneRightQueued = false;
             }
-            RandomLaneChange(LaneChangeProbability);
+            PlanRoadChange();
             RoadTravelChangeEventHandler handler = TravelChanged;
             handler?.Invoke(this, new RoadTravelChangeEventArgs(Travel));
+        }
+
+        void PlanRoadChange()
+        {
+            RandomLaneChange(LaneChangeProbability);
+            if (_laneChangeDistance == null)
+            {
+                TravelPlan.Enqueue(ChooseRoadBehaviour.ChoosePath(Travel.Road.EndTravels));
+            }
         }
 
         void RandomLaneChange(float probability)
@@ -126,12 +136,22 @@ namespace Roads
                     if (Travel.Road.LeftRoad != null) _laneSide = true;
                     if (Travel.Road.RightRoad != null) _laneSide = false;
                 }
-                if (ChangeBehaviour.IsPossible(new RoadTravel(Travel.Road, r), _laneSide ? Travel.Road.LeftRoad : Travel.Road.RightRoad))
+                //var nextTravel = new RoadTravel(Travel.Road, r);
+                var plan = ChangeBehaviour.PlanRoadChange(Travel.Road, r, _laneSide ? Travel.Road.LeftRoad : Travel.Road.RightRoad);
+                if (plan != null)
                 {
+                    Travel.Length = r;
+                    TravelPlan.Enqueue(new RoadTravel(plan));
+                    TravelPlan.Enqueue(plan.DestinationTravel);
                     _laneChangeDistance = r;
                 }
                 else _laneChangeDistance = null;
             }
+        }
+
+        void NextTravel()
+        {
+            Travel = TravelPlan.Dequeue();
         }
 
         protected virtual void Move(Vector3 pos, Quaternion rotation)
@@ -164,32 +184,32 @@ namespace Roads
             if (Travel != null)
             {
                 var r = Travel.Road;
-                if (changeLaneRightQueued && !_changingLanes)
-                {
-                    if (r.RightRoad != null)
-                    {
-                        var c = ChangeBehaviour.PlanRoadChange(Travel, r.RightRoad);
-                        if (c != null)
-                        {
-                            Travel = new RoadTravel(c);
-                            _changingLanes = true;
-                            //changeLaneRightQueued = false;
-                        }
-                    }
-                }
-                if (changeLaneLeftQueued && !_changingLanes)
-                {
-                    if (r.LeftRoad != null)
-                    {
-                        var c = ChangeBehaviour.PlanRoadChange(Travel, r.LeftRoad);
-                        if (c != null)
-                        {
-                            Travel = new RoadTravel(c);
-                            _changingLanes = true;
-                            //changeLaneLeftQueued = false;
-                        }
-                    }
-                }
+                //if (changeLaneRightQueued && !_changingLanes)
+                //{
+                //    if (r.RightRoad != null)
+                //    {
+                //        //var c = ChangeBehaviour.PlanRoadChange(Travel, r.RightRoad);
+                //        if (c != null)
+                //        {
+                //            //Travel = new RoadTravel(c);
+                //            _changingLanes = true;
+                //            //changeLaneRightQueued = false;
+                //        }
+                //    }
+                //}
+                //if (changeLaneLeftQueued && !_changingLanes)
+                //{
+                //    if (r.LeftRoad != null)
+                //    {
+                //        var c = ChangeBehaviour.PlanRoadChange(Travel, r.LeftRoad);
+                //        if (c != null)
+                //        {
+                //            //Travel = new RoadTravel(c);
+                //            _changingLanes = true;
+                //            //changeLaneLeftQueued = false;
+                //        }
+                //    }
+                //}
                 LaneChange(_laneSide);
 
                 if (!Travel.MoveAtSpeed(speed))
@@ -198,11 +218,12 @@ namespace Roads
                     {
                         return;
                     }
+                    _laneChangeDistance = null;
                     var oldDistance = Travel.Distance - Travel.Length;
-                    Travel = ChooseRoadBehaviour.ChoosePath(Travel.Road.EndTravels);
+                    NextTravel();
                     Travel.Distance += oldDistance;
                 }
-                Move(Travel.CurentPoint + PositionOffset, Quaternion.Euler(Travel.CurentRotation.eulerAngles + RotationOffset));
+                Move(Travel.CurrentPoint + PositionOffset, Quaternion.Euler(Travel.CurrentRotation.eulerAngles + RotationOffset));
             }
         }
 
