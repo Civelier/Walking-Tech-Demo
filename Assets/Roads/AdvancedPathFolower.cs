@@ -61,12 +61,9 @@ namespace Roads
         [Range(0, 1)]
         public float LaneChangeProbability = 0.2f;
         public IChooseRoadBehaviour ChooseRoadBehaviour = new RandomPathBehaviour();
-#if UNITY_EDITOR
-        public BasicRoadChangeBehaviour ChangeBehaviour = new BasicRoadChangeBehaviour();
-#else
-        public IRoadChangeBehaviour ChangeBehaviour = new BasicRoadChangeBehaviour();
-#endif
-        bool _changingLanes = false;
+        public AdvancedRoadChangeBehaviour ChangeBehaviour;
+
+        internal bool _changingLanes = false;
         protected float? _laneChangeDistance = null;
         private bool _changeLaneLeftQueued = false;
         protected virtual bool changeLaneLeftQueued
@@ -112,7 +109,7 @@ namespace Roads
             handler?.Invoke(this, new RoadTravelChangeEventArgs(Travel));
         }
 
-        void PlanRoadChange()
+        public virtual void PlanRoadChange()
         {
             RandomLaneChange(LaneChangeProbability);
             if (_laneChangeDistance == null)
@@ -151,7 +148,7 @@ namespace Roads
 
         void NextTravel()
         {
-            Travel = TravelPlan.Dequeue();
+            if (TravelPlan.Count > 0) Travel = TravelPlan.Dequeue();
         }
 
         protected virtual void Move(Vector3 pos, Quaternion rotation)

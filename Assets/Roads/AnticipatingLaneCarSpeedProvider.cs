@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEditor;
 
 namespace Roads
 {
@@ -13,7 +14,7 @@ namespace Roads
         public override bool changeLaneLeftQueued { get; set; }
         public override bool changeLaneRightQueued { get; set; }
 
-        [Tooltip("Relative speed dependig on the distance (if point at (0.5;0.5) the speed will be the same when the distance is half the scanning distance)")]
+        [Tooltip("Relative speed depending on the distance (if point at (0.5;0.5) the speed will be the same when the distance is half the scanning distance)")]
         public AnimationCurve BrakeCurve;
 
         public float ScanDistanceFront;
@@ -21,8 +22,6 @@ namespace Roads
 
         private CarCollider _carCollider;
         public CarCollider carCollider => _carCollider = _carCollider ?? GetComponent<CarCollider>();
-
-        public List<CarMovementInfo> NearbyCars = new List<CarMovementInfo>();
 
         float NewSpeedDistance => CarMove.Travel.Length;
         float NewTravelSpeed => CarMove.TravelPlan.FirstOrDefault()?.Road?.MaxSpeed ?? 0;
@@ -39,13 +38,14 @@ namespace Roads
                 if (carInfo != null)
                 {
                     //carInfo.Value.RecalculateDistance();
-                    if (carInfo.Value.IsOnPath && carInfo.Value.RelativeDistance.x <= ScanDistanceFront)
+                    if (carInfo.Value.IsOnPath && carInfo.Value.LastActualDistance <= ScanDistanceFront)
                     {
-                        brake = true;
+                        
                         //return 0;
                         //carInfo.Value.RecalculateDistance();
 
                         float s = CalculateTargetSpeed(carInfo.Value);
+                        if (carInfo.Value.CarMove.SpeedProvider.MaxSpeed < MaxSpeed) SlowDownCause = CauseOfSlowDown.FrontCarSlower;
                         return s;
                     }
                 }
@@ -53,15 +53,19 @@ namespace Roads
                 {
                     if (DeccelerateDistance < CarMove.Travel.Distance) // Is it time to deccelerate
                     {
+                        if (changeLaneLeftQueued || changeLaneRightQueued) SlowDownCause = CauseOfSlowDown.ChangingLanes;
+                        else SlowDownCause = CauseOfSlowDown.AnticipationForNextRoad;
                         return NewTravelSpeed; // Deccelerate
                     }
                     else
                     {
+                        SlowDownCause = CauseOfSlowDown.None;
                         return CurrentMaxSpeed; // Accellerate / go at speed limit
                     }
                 }
                 else
                 {
+                    SlowDownCause = CauseOfSlowDown.None;
                     return CurrentMaxSpeed; // Accellerate / go at speed limit
                 }
             }
@@ -78,12 +82,14 @@ namespace Roads
 
         float CalculateTargetSpeed(CarMovementInfo carInfo)
         {
-            var v = carInfo.RelativeDistance.x;
+            var v = carInfo.LastActualDistance;
             var relativeDistance = v / ScanDistanceFront;
             var relativeSpeed = BrakeCurve.Evaluate(relativeDistance);
             var currentMaxSpeed = DeccelerateDistance < CarMove.Travel.Distance ? NewTravelSpeed : CurrentMaxSpeed;
-            return relativeSpeed > 0.5f ? Mathf.Lerp(carInfo.CarMove.speed, currentMaxSpeed, (relativeSpeed - 0.5f) * 2) :
-                Mathf.Lerp(0, currentMaxSpeed, relativeSpeed * 2);
+            if (relativeSpeed < 0.5f) 
+                brake = true;
+            return relativeSpeed > 0.5f ? Mathf.Lerp(carInfo.CarMove.speed, currentMaxSpeed, relativeSpeed) :
+                Mathf.Lerp(0, currentMaxSpeed, relativeSpeed);
         }
 
         private void OnTravelChanged(object sender, RoadTravelChangeEventArgs args)
@@ -225,7 +231,8 @@ namespace Roads
             bool first = true;
             foreach (var carInfo in NearbyCars)
             {
-                if (true) //carInfo.IsOnPath)
+                carInfo.RecalculateDistance();
+                if (carInfo.IsOnPath)
                 {
                     if (first)
                     {

@@ -175,6 +175,30 @@ namespace Roads
             }
         }
 
+        protected override void OnTravelChanged()
+        {
+            if (!_laneChangeDistance.HasValue && _changingLanes)
+            {
+                _changingLanes = false;
+                changeLaneLeftQueued = false;
+                changeLaneRightQueued = false;
+            }
+            TravelPlan.Enqueue(ChooseRoadBehaviour.ChoosePath(Travel.Road.EndTravels));
+            RoadTravelChangeEventHandler handler = TravelChanged;
+            handler?.Invoke(this, new RoadTravelChangeEventArgs(Travel));
+        }
+
+        public void SetLaneChange(RoadChangePath path)
+        {
+            if (path == null) return;
+            _changingLanes = true;
+            TravelPlan.Dequeue();
+            Travel.Length = Travel.Distance;
+            TravelPlan.Enqueue(new RoadTravel(path));
+            TravelPlan.Enqueue(path.DestinationTravel);
+            _laneChangeDistance = Travel.Distance;
+        }
+
         protected override void LaneChange(bool left)
         {
             base.LaneChange(left);

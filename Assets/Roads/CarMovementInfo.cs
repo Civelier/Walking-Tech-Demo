@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Roads
 {
@@ -11,11 +14,11 @@ namespace Roads
     [Serializable]
     public struct CarMovementInfo : IEquatable<CarMovementInfo>
     {
-        public static bool AlwaysRecalculate = true;
-        public static float RecalculateTreshold = 0.5f;
+        public static bool AlwaysRecalculate = false;
+        public static float RecalculateTreshold = 0;
 
         public CarMovement Parent;
-        public readonly CarMovement CarMove;
+        public CarMovement CarMove;
 
         public bool IsOnPath { get; private set; }
 

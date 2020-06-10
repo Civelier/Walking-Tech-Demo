@@ -7,6 +7,13 @@ using UnityEngine;
 
 namespace Roads
 {
+    public enum CauseOfSlowDown
+    {
+        None,
+        FrontCarSlower,
+        ChangingLanes,
+        AnticipationForNextRoad
+    }
     public abstract class CarSpeedProvider : MonoBehaviour
     {
         public float Acceleration = 8;
@@ -23,6 +30,9 @@ namespace Roads
         protected RoadTravel Travel => CarMove.Travel;
         protected float RoadMaxSpeed => Travel.Road.MaxSpeed;
         protected float CurrentMaxSpeed => Mathf.Min(MaxSpeed, RoadMaxSpeed);
+
+        public List<CarMovementInfo> NearbyCars = new List<CarMovementInfo>();
+        public CauseOfSlowDown SlowDownCause { get; protected set; }
 
         public float Anticipation = 0.8f;
         protected bool brake;

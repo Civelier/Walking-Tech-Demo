@@ -11,5 +11,6 @@ namespace Roads
         RoadChangePath PlanRoadChange(RoadTravel travel, Road destination);
         float MaxSpeedPercent { get; }
         bool IsPossible(RoadTravel travel, Road destination);
+        RoadChangePath PlanRoadChange(Road initial, float distance, Road destination);
     }
 }

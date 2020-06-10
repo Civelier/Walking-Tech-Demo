@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6765246591552615295}
   - component: {fileID: 5451232278690066951}
   - component: {fileID: 2873832413096827782}
+  - component: {fileID: 1438537386818290381}
   m_Layer: 0
   m_Name: Car_3_Purple
   m_TagString: Car
@@ -111,10 +112,7 @@ MonoBehaviour:
   InitialRoad: {fileID: 0}
   speed: 0
   LaneChangeProbability: 0
-  ChangeBehaviour:
-    CurveFactor: 0.1
-    AttackAngle: 75
-    MaxSpeedPercentEditor: 0.4
+  ChangeBehaviour: {fileID: 1438537386818290381}
   Acceleration: 12
   Decceleration: 24
   Brake: 60
@@ -126,7 +124,7 @@ MonoBehaviour:
   Car: {fileID: 4391770651569014569}
   Body: {fileID: 2873832413096827782}
   SpeedProvider: {fileID: 5451232278690066951}
-  Anticipation: 0.8
+  Anticipation: 0.295
 --- !u!114 &4391770651569014569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,8 +151,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 0.16612953, y: 0.013582619, z: 0.09999999}
-  m_Center: {x: 0.030769672, y: 0.00096554693, z: 9.347054e-17}
+  m_Size: {x: 0.19258446, y: 0.013582619, z: 0.09999999}
+  m_Center: {x: 0.04399716, y: 0.00096554693, z: 6.961013e-17}
 --- !u!114 &5451232278690066951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,6 +169,7 @@ MonoBehaviour:
   Decceleration: 24
   Brake: 80
   MaxSpeed: 40
+  NearbyCars: []
   Anticipation: 0.4
   BrakeCurve:
     serializedVersion: 2
@@ -178,15 +177,6 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: -0.000003226567
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.19999999
-      value: -0.000011248514
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -205,9 +195,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  ScanDistanceFront: 25
+  ScanDistanceFront: 18
   OptimalDistanceToOtherCars: 7.5
-  NearbyCars: []
 --- !u!54 &2873832413096827782
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -224,6 +213,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
+--- !u!114 &1438537386818290381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4391770651569014612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 781563019f2bbe7469142780e6ace78b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CarMove: {fileID: 4391770651569014614}
+  RoadChangeBehaviour:
+    CurveFactor: 0.1
+    AttackAngle: 75
+    MaxSpeedPercentEditor: 0.8
 --- !u!1 &4391770651569030936
 GameObject:
   m_ObjectHideFlags: 0
