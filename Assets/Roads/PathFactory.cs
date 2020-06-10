@@ -2,29 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
-public class PathFactory : MonoBehaviour
+namespace Roads
 {
-    public static PathFactory Instance;
+    [ExecuteInEditMode]
+    public class PathFactory : MonoBehaviour
+    {
+        public static PathFactory Instance;
 
-    public GameObject PathPrefab;
-    public GameObject NodePrefab;
-    public GameObject RoadChangePrefab;
+        public GameObject PathPrefab;
+        public GameObject NodePrefab;
+        public GameObject RoadChangePrefab;
 
 #if UNITY_EDITOR
-    private void OnGUI()
-    {
-        Instance = this;
-    }
-    private void OnEnable()
-    {
-        Instance = this;
-    }
+        private void OnGUI()
+        {
+            Instance = this;
+        }
+        private void OnEnable()
+        {
+            Instance = this;
+        }
 #endif
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        Instance = this;
+        // Start is called before the first frame update
+        void Start()
+        {
+            Instance = this;
+        }
     }
 }

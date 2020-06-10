@@ -20,8 +20,8 @@ namespace Roads
         public CarCollider Car;
         public Rigidbody Body;
         public CarSpeedProvider SpeedProvider;
-        //[Range(0,1)]
-        //public float Anticipation = 0.8f;
+        [Range(0, 1)]
+        public float Anticipation = 0.8f;
 
         // Start is called before the first frame update
         void Start()
@@ -31,6 +31,11 @@ namespace Roads
             if (Car == null) Car = GetComponent<CarCollider>();
             if (SpeedProvider == null) SpeedProvider = GetComponent<CarSpeedProvider>();
             Travel = new RoadTravel(InitialRoad);
+            SpeedProvider.Acceleration = Acceleration;
+            SpeedProvider.Anticipation = Anticipation;
+            SpeedProvider.Brake = Brake;
+            SpeedProvider.Decceleration = Decceleration;
+            SpeedProvider.MaxSpeed = MaxSpeed;
             //FrontTrigger.TriggerEntered += OnTriggerEntered;
             //FrontTrigger.TriggerExitted += OnTriggerExitted;
             //FrontTrigger.TriggerStayed += OnTriggerStayed;

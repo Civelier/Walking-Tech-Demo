@@ -31,14 +31,15 @@ namespace Roads
 
         public virtual float GetSpeed()
         {
+            var targetSpeed = TargetSpeed;
             if (brake)
             {
                 brake = false;
-                return speed = Mathf.MoveTowards(speed, TargetSpeed, Time.deltaTime * Brake);
+                return speed = Mathf.MoveTowards(speed, targetSpeed, Time.deltaTime * Brake);
             }
-            else if (speed <= TargetSpeed)
-                return speed = Mathf.MoveTowards(speed, TargetSpeed, Time.deltaTime * Acceleration);
-            else return speed = Mathf.MoveTowards(speed, TargetSpeed, Time.deltaTime * Decceleration);
+            else if (speed <= targetSpeed)
+                return speed = Mathf.MoveTowards(speed, targetSpeed, Time.deltaTime * Acceleration);
+            else return speed = Mathf.MoveTowards(speed, targetSpeed, Time.deltaTime * Decceleration);
         }
         public abstract void QueueChangeLaneLeft();
         public abstract void QueueChangeLaneRight();

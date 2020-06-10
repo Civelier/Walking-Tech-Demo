@@ -150,7 +150,16 @@ namespace Roads
             if (IncommingRoads.Contains(path))
             {
                 IncommingRoads.Remove(path);
-                if (IncommingRoads.Count == 0 && OutgoingRoads.Count == 0) MainThreadDispatcher.Schedule(() => Destroy(gameObject));
+                if (IncommingRoads.Count == 0 && OutgoingRoads.Count == 0) MainThreadDispatcher.Schedule(() =>
+                {
+                    try
+                    {
+                        Destroy(gameObject);
+                    }
+                    catch (MissingReferenceException)
+                    {
+                    }
+                });
             }
         }
 
@@ -159,8 +168,17 @@ namespace Roads
             if (OutgoingRoads.Contains(path))
             {
                 OutgoingRoads.Remove(path);
-                
-                if (IncommingRoads.Count == 0 && OutgoingRoads.Count == 0) MainThreadDispatcher.Schedule(() => Destroy(gameObject));
+
+                if (IncommingRoads.Count == 0 && OutgoingRoads.Count == 0) MainThreadDispatcher.Schedule(() =>
+                {
+                    try
+                    {
+                        Destroy(gameObject);
+                    }
+                    catch (MissingReferenceException)
+                    {
+                    }
+                });
             }
         }
 

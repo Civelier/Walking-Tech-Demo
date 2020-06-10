@@ -104,5 +104,10 @@ namespace Roads
         {
             return user == _user;
         }
+
+        public override IEnumerable<CarMovement> GetUsers()
+        {
+            if (_user != null && _user.TryGetComponent(out CarMovement car)) yield return car;
+        }
     }
 }

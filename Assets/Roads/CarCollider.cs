@@ -96,20 +96,17 @@ namespace Roads
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Trigger entered");
-            if (ValidCollider(other)) OnTriggerEntered(other);
+            /*if (ValidCollider(other))*/ OnTriggerEntered(other);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            Debug.Log("Trigger exitted");
-            if (ValidCollider(other))  OnTriggerExitted(other);
+            /*if (ValidCollider(other))*/ OnTriggerExitted(other);
         }
 
         private void OnTriggerStay(Collider other)
         {
-            Debug.Log("Trigger stay");
-            if (ValidCollider(other)) OnTriggerStayed(other);
+            /*if (ValidCollider(other))*/ OnTriggerStayed(other);
         }
     }
 }

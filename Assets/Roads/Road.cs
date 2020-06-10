@@ -27,14 +27,12 @@ namespace Roads
         public abstract void Exitted(GameObject user);
         public abstract void Entered(GameObject user);
 
+        public abstract IEnumerable<CarMovement> GetUsers();
+
         public Vector3 this[int i]
         {
             get
             {
-                if (Path == null)
-                {
-
-                }
                 return Path.bezierPath.GetPoint(AnchorToPointIndex(i));
             }
             set

@@ -188,5 +188,16 @@ namespace Roads
         {
             return Users.Contains(user);
         }
+
+        public override IEnumerable<CarMovement> GetUsers()
+        {
+            foreach (var user in Users)
+            {
+                if (user.TryGetComponent(out CarMovement car))
+                {
+                    yield return car;
+                }
+            }
+        }
     }
 }
