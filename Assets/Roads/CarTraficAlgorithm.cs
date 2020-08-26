@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Roads
@@ -8,14 +9,14 @@ namespace Roads
     [ExecuteInEditMode]
     public class CarTraficAlgorithm : MonoBehaviour
     {
-        public List<CarMovement> CarMovements;
+        public List<ParallelSafeCarMove> CarMovements;
         // Start is called before the first frame update
         void Start()
         {
-            CarMovements = new List<CarMovement>();
+            CarMovements = new List<ParallelSafeCarMove>();
             foreach (var car in GameObject.FindGameObjectsWithTag("Car"))
             {
-                if (car.TryGetComponent(out CarMovement movement))
+                if (car.TryGetComponent(out ParallelSafeCarMove movement))
                 {
                     CarMovements.Add(movement);
                 }
@@ -25,7 +26,11 @@ namespace Roads
         // Update is called once per frame
         void Update()
         {
-
+            Parallel.ForEach(CarMovements, (movements) =>
+            {
+                movements.UpdateSpeed();
+                movements.BasicUpdate();
+            });
         }
     }
 }

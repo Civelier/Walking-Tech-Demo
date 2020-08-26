@@ -340,15 +340,15 @@ namespace Roads
         //    ComputeDecceleration();
         //}
 
-        void UpdateSpeed()
+        public void UpdateSpeed()
         {
             speed = SpeedProvider.GetSpeed();
         }
 
-        void Update()
-        {
-            UpdateSpeed();
-            BasicUpdate();
-        }
+        //void Update()
+        //{
+        //    UpdateSpeed();
+        //    BasicUpdate();
+        //}
     }
 }
