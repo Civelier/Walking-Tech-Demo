@@ -345,10 +345,10 @@ namespace Roads
             speed = SpeedProvider.GetSpeed();
         }
 
-        //void Update()
-        //{
-        //    UpdateSpeed();
-        //    BasicUpdate();
-        //}
+        void Update()
+        {
+            UpdateSpeed();
+            BasicUpdate();
+        }
     }
 }
