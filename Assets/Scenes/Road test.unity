@@ -528,6 +528,16 @@ PrefabInstance:
       propertyPath: LaneChangeProbability
       value: 0.367
       objectReference: {fileID: 0}
+    - target: {fileID: 4391770651569014614, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: MaxSpeed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391770651569014614, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: Acceleration
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 4391770651569343438, guid: 07d8707f92256104d8b854f92f985ade,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -850,7 +860,7 @@ MonoBehaviour:
       - 0
       globalNormalsAngle: 0
       flipNormals: 0
-    vertexPathUpToDate: 1
+    vertexPathUpToDate: 0
     vertexPathMaxAngleError: 0.3
     vertexPathMinVertexSpacing: 0.01
     showTransformTool: 1
@@ -2958,6 +2968,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5451232278690066951, guid: 07d8707f92256104d8b854f92f985ade,
+        type: 3}
+      propertyPath: MaxSpeed
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07d8707f92256104d8b854f92f985ade, type: 3}
