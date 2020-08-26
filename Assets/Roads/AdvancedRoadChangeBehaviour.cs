@@ -18,12 +18,12 @@ namespace Roads
     public class AdvancedRoadChangeBehaviour : MonoBehaviour, IRoadChangeBehaviour
     {
         public CarMovement CarMove;
-        System.Random _random = new System.Random();
+        protected System.Random _random = new System.Random();
 
         public BasicRoadChangeBehaviour RoadChangeBehaviour = new BasicRoadChangeBehaviour();
         public float MaxSpeedPercent => 0.8f;
 
-        RoadChange _possibleRoadChanges
+        protected RoadChange _possibleRoadChanges
         {
             get
             {
@@ -40,12 +40,12 @@ namespace Roads
             CarMove.Car.TriggerStayed += OnTriggerStayed;
         }
 
-        public RoadChangePath PlanRoadChange(Road initial, float distance, Road destination)
+        public virtual RoadChangePath PlanRoadChange(Road initial, float distance, Road destination)
         {
             return PlanRoadChange(new RoadTravel(initial, distance), destination);
         }
 
-        void OnTriggerStayed(Collider collider)
+        protected void OnTriggerStayed(Collider collider)
         {
             if (CarMove._changingLanes) return;
             if (_possibleRoadChanges != RoadChange.None)
@@ -125,12 +125,12 @@ namespace Roads
             }
         }
 
-        public bool IsPossible(RoadTravel travel, Road destination)
+        public virtual bool IsPossible(RoadTravel travel, Road destination)
         {
             return false;
         }
 
-        public RoadChangePath PlanRoadChange(RoadTravel travel, Road destination)
+        public virtual RoadChangePath PlanRoadChange(RoadTravel travel, Road destination)
         {
             return null;
         }

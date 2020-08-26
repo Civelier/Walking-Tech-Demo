@@ -183,9 +183,19 @@ namespace Roads
                 changeLaneLeftQueued = false;
                 changeLaneRightQueued = false;
             }
+            //PlanRoadChange();
             TravelPlan.Enqueue(ChooseRoadBehaviour.ChoosePath(Travel.Road.EndTravels));
             RoadTravelChangeEventHandler handler = TravelChanged;
             handler?.Invoke(this, new RoadTravelChangeEventArgs(Travel));
+        }
+
+        public override void PlanRoadChange()
+        {
+            RandomLaneChange(LaneChangeProbability);
+            if (_laneChangeDistance == null)
+            {
+                TravelPlan.Enqueue(ChooseRoadBehaviour.ChoosePath(Travel.Road.EndTravels));
+            }
         }
 
         public void SetLaneChange(RoadChangePath path)

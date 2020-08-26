@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6765246591552615295}
   - component: {fileID: 5451232278690066951}
   - component: {fileID: 2873832413096827782}
-  - component: {fileID: 1438537386818290381}
+  - component: {fileID: 484495161684975040}
   m_Layer: 0
   m_Name: Car_3_Purple
   m_TagString: Car
@@ -112,7 +112,7 @@ MonoBehaviour:
   InitialRoad: {fileID: 0}
   speed: 0
   LaneChangeProbability: 0
-  ChangeBehaviour: {fileID: 1438537386818290381}
+  ChangeBehaviour: {fileID: 484495161684975040}
   Acceleration: 12
   Decceleration: 24
   Brake: 60
@@ -213,7 +213,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
---- !u!114 &1438537386818290381
+--- !u!114 &484495161684975040
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -222,12 +222,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4391770651569014612}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 781563019f2bbe7469142780e6ace78b, type: 3}
+  m_Script: {fileID: 11500000, guid: 46f0994f925b42d4caa5e458ed98323b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CarMove: {fileID: 4391770651569014614}
   RoadChangeBehaviour:
-    CurveFactor: 0.1
+    CurveFactor: 0.2
     AttackAngle: 75
     MaxSpeedPercentEditor: 0.8
 --- !u!1 &4391770651569030936

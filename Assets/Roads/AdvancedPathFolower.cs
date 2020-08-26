@@ -58,8 +58,8 @@ namespace Roads
         }
         public Road InitialRoad;
         public float speed = 5;
-        //[Range(0, 1)]
-        //public float LaneChangeProbability = 0.2f;
+        [Range(0, 1)]
+        public float LaneChangeProbability = 0.2f;
         public IChooseRoadBehaviour ChooseRoadBehaviour = new RandomPathBehaviour();
         public AdvancedRoadChangeBehaviour ChangeBehaviour;
 
@@ -111,14 +111,14 @@ namespace Roads
 
         public virtual void PlanRoadChange()
         {
-            //RandomLaneChange(LaneChangeProbability);
+            RandomLaneChange(LaneChangeProbability);
             if (_laneChangeDistance == null)
             {
                 TravelPlan.Enqueue(ChooseRoadBehaviour.ChoosePath(Travel.Road.EndTravels));
             }
         }
 
-        void RandomLaneChange(float probability)
+        protected virtual void RandomLaneChange(float probability)
         {
             if (UnityEngine.Random.value < probability)
             {
