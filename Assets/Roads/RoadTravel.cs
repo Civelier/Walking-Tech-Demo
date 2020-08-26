@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PathCreation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,16 +15,29 @@ namespace Roads
         public float Distance { get; set; }
         public float DistanceRemaining => Length - Distance;
         public float Length;
-        public Vector3 CurrentPoint => Road?.Path.path.GetPointAtDistance(Distance, PathCreation.EndOfPathInstruction.Stop) ?? new Vector3();
-        public Quaternion CurrentRotation => Road?.Path.path.GetRotationAtDistance(Distance, PathCreation.EndOfPathInstruction.Stop) ?? new Quaternion();
-        public Vector3 CurrentDirection => Road?.Path.path.GetDirectionAtDistance(Distance, PathCreation.EndOfPathInstruction.Stop) ?? new Vector3();
-        public Vector3 CurrentNormal => Road?.Path.path.GetNormalAtDistance(Distance, PathCreation.EndOfPathInstruction.Stop) ?? new Vector3();
+
+        Vector3 _precalculatedPoint;
+        public Vector3 CurrentPoint => MainThreadDispatcher.IsMainThread ? Road?.Path.path.GetPointAtDistance(Distance, PathCreation.EndOfPathInstruction.Stop) ?? new Vector3() : _precalculatedPoint;
+        Quaternion _precalculatedRotation;
+        public Quaternion CurrentRotation => MainThreadDispatcher.IsMainThread ? Road?.Path.path.GetRotationAtDistance(Distance, PathCreation.EndOfPathInstruction.Stop) ?? new Quaternion() : _precalculatedRotation;
+        Vector3 _precalculatedDirection;
+        public Vector3 CurrentDirection => MainThreadDispatcher.IsMainThread ? Road?.Path.path.GetDirectionAtDistance(Distance, PathCreation.EndOfPathInstruction.Stop) ?? new Vector3() : _precalculatedDirection;
+        Vector3 _precalculatedNormal;
+        public Vector3 CurrentNormal => MainThreadDispatcher.IsMainThread ? Road?.Path.path.GetNormalAtDistance(Distance, PathCreation.EndOfPathInstruction.Stop) ?? new Vector3() : _precalculatedNormal;
 
         public RoadTravel(Road road, float distance = 0, float? length = null)
         {
             Road = road;
             Distance = distance;
             Length = length ?? Road?.Path.path.length ?? 0;
+        }
+
+        public void PreCalculate()
+        {
+            _precalculatedDirection = CurrentDirection;
+            _precalculatedNormal = CurrentNormal;
+            _precalculatedPoint = CurrentPoint;
+            _precalculatedRotation = CurrentRotation;
         }
 
         /// <summary>
@@ -33,7 +47,7 @@ namespace Roads
         /// <returns>True when the distance is still within the length.</returns>
         public bool MoveAtSpeed(float speed)
         {
-            Distance += speed * Time.deltaTime;
+            Distance += speed * MainThreadDispatcher.DeltaTime;
             return DistanceRemaining > 0;
         }
 

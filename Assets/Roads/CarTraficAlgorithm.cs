@@ -23,14 +23,37 @@ namespace Roads
             }
         }
 
-        // Update is called once per frame
-        void Update()
+        void PreCalculate()
+        {
+            foreach (var car in CarMovements)
+            {
+                car.PreCalculate();
+            }
+        }
+
+        void ParallelMainUpdate()
         {
             Parallel.ForEach(CarMovements, (movements) =>
             {
                 movements.UpdateSpeed();
                 movements.BasicUpdate();
             });
+        }
+
+        void PostCalculate()
+        {
+            foreach (var car in CarMovements)
+            {
+                car.PostCalculate();
+            }
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            PreCalculate();
+            ParallelMainUpdate();
+            PostCalculate();
         }
     }
 }

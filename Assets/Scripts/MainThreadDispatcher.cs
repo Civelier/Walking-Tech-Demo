@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,6 +10,10 @@ using UnityEngine.Events;
 public class MainThreadDispatcher : MonoBehaviour
 {
     public static MainThreadDispatcher Instance;
+    public static Thread MainThread { get; private set; }
+    private static float _lastDeltaTime = 0;
+    public static bool IsMainThread => Thread.CurrentThread == MainThread;
+    public static float DeltaTime => IsMainThread ? Time.deltaTime : _lastDeltaTime;
 
     Queue<UnityAction> actions = new Queue<UnityAction>();
 
@@ -16,6 +21,7 @@ public class MainThreadDispatcher : MonoBehaviour
     void Start()
     {
         //Application.targetFrameRate = 60;
+        MainThread = Thread.CurrentThread;
         Instance = this;
     }
 
@@ -31,9 +37,13 @@ public class MainThreadDispatcher : MonoBehaviour
             LogError();
             return;
         }
-        lock(Instance.actions)
+        if (IsMainThread) a();
+        else
         {
-            Instance.actions.Enqueue(a);
+            lock(Instance.actions)
+            {
+                Instance.actions.Enqueue(a);
+            }
         }
     }
 
@@ -44,15 +54,20 @@ public class MainThreadDispatcher : MonoBehaviour
             LogError();
             return;
         }
-        lock(Instance.actions)
+        if (IsMainThread) e.Invoke();
+        else
         {
-            Instance.actions.Enqueue(e.Invoke);
+            lock (Instance.actions)
+            {
+                Instance.actions.Enqueue(e.Invoke);
+            }
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        _lastDeltaTime = Time.deltaTime;
         lock (actions)
         {
             if (actions.Count > 0)

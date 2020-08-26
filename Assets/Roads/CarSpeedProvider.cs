@@ -28,7 +28,7 @@ namespace Roads
         private CarMovement _carMove;
         protected CarMovement CarMove => _carMove = _carMove ?? GetComponent<CarMovement>();
         protected RoadTravel Travel => CarMove.Travel;
-        protected float RoadMaxSpeed => Travel.Road.MaxSpeed;
+        protected float RoadMaxSpeed => Travel?.Road?.MaxSpeed ?? 0;
         protected float CurrentMaxSpeed => Mathf.Min(MaxSpeed, RoadMaxSpeed);
 
         public List<CarMovementInfo> NearbyCars = new List<CarMovementInfo>();
@@ -45,11 +45,11 @@ namespace Roads
             if (brake)
             {
                 brake = false;
-                return speed = Mathf.MoveTowards(speed, targetSpeed, Time.deltaTime * Brake);
+                return speed = Mathf.MoveTowards(speed, targetSpeed, MainThreadDispatcher.DeltaTime * Brake);
             }
             else if (speed <= targetSpeed)
-                return speed = Mathf.MoveTowards(speed, targetSpeed, Time.deltaTime * Acceleration);
-            else return speed = Mathf.MoveTowards(speed, targetSpeed, Time.deltaTime * Decceleration);
+                return speed = Mathf.MoveTowards(speed, targetSpeed, MainThreadDispatcher.DeltaTime * Acceleration);
+            else return speed = Mathf.MoveTowards(speed, targetSpeed, MainThreadDispatcher.DeltaTime * Decceleration);
         }
         public abstract void QueueChangeLaneLeft();
         public abstract void QueueChangeLaneRight();

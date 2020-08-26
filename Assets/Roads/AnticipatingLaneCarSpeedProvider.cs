@@ -220,7 +220,7 @@ namespace Roads
             if (_firstFrame)
             {
                 _firstFrame = false;
-                carCollider.Active = true;
+                MainThreadDispatcher.Schedule(() => carCollider.Active = true);
                 return null;
             }
             if (NearbyCars.Count == 0)
