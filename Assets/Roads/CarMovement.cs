@@ -198,6 +198,10 @@ namespace Roads
             }
         }
 
+        /// <summary>
+        /// Set the planned lane change as the next path and queue the new lane in the plan
+        /// </summary>
+        /// <param name="path"></param>
         public void SetLaneChange(RoadChangePath path)
         {
             if (path == null) return;
@@ -350,6 +354,9 @@ namespace Roads
         //    ComputeDecceleration();
         //}
 
+        /// <summary>
+        /// Calculates the speed using the speed provider
+        /// </summary>
         public void UpdateSpeed()
         {
             speed = SpeedProvider.GetSpeed();

@@ -13,6 +13,10 @@ public class MainThreadDispatcher : MonoBehaviour
     public static Thread MainThread { get; private set; }
     private static float _lastDeltaTime = 0;
     public static bool IsMainThread => Thread.CurrentThread == MainThread;
+    /// <summary>
+    /// <inheritdoc cref="Time.deltaTime"/>
+    /// Available on secondary threads
+    /// </summary>
     public static float DeltaTime => IsMainThread ? Time.deltaTime : _lastDeltaTime;
 
     Queue<UnityAction> actions = new Queue<UnityAction>();

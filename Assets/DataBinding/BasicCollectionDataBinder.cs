@@ -7,19 +7,41 @@ using UnityEngine.Events;
 
 namespace Assets.DataBinding
 {
+    /// <summary>
+    /// Data binder for collections of type <typeparamref name="T"/>
+    /// The bridge between <see cref="ICollectionData{T}"/> and <see cref="ICollectionUIData{T}"/>
+    /// </summary>
+    /// <typeparam name="T">The type of the data</typeparam>
     public class BasicCollectionDataBinder<T> : ICollectionDataBinder<T>, IRevertableBinder
     {
         private bool _isRevertable;
 
         public ICollectionData<T> Data { get; private set; }
-
         public ICollectionUIData<T> UIData { get; private set; }
 
+        /// <summary>
+        /// Returns if the bind is revertable
+        /// If true, the data will not be updated until either <see cref="ApplyToData"/> or <see cref="ApplyToUI"/> are called
+        /// </summary>
         public bool IsRevertable => _isRevertable;
 
+        /// <summary>
+        /// The queue of events comming from the UI changes if the bind is revertable
+        /// Will be applied if <see cref="ApplyToData"/> is called
+        /// </summary>
         Queue<UnityAction> _uiDataEventQueue = new Queue<UnityAction>();
+        /// <summary>
+        /// The queue of events comming from the data changes if the bind is revertable
+        /// Will be applied if <see cref="ApplyToUI"/> is called
+        /// </summary>
         Queue<UnityAction> _dataEventQueue = new Queue<UnityAction>();
 
+        /// <summary>
+        /// Constructor for the basic collection data binder
+        /// </summary>
+        /// <param name="data">The data representation (<see cref="ICollectionData{T}"/>) of the bind</param>
+        /// <param name="uiData">The UI representation (<see cref="ICollectionUIData{T}"/>) of the bind</param>
+        /// <param name="isRevertable">Whether the bind is revertable or not</param>
         public BasicCollectionDataBinder(ICollectionData<T> data, ICollectionUIData<T> uiData, bool isRevertable)
         {
             _isRevertable = isRevertable;

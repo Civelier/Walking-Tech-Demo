@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Assets.DataBinding
 {
+    /// <summary>
+    /// The UI representation of a collection
+    /// </summary>
+    /// <typeparam name="T">Type of the data</typeparam>
     public interface ICollectionUIData<T> : IBindable, ICollection<T>
     {
         T this[int index] { get; set; }

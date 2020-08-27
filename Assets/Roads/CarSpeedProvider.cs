@@ -12,7 +12,8 @@ namespace Roads
         None,
         FrontCarSlower,
         ChangingLanes,
-        AnticipationForNextRoad
+        AnticipationForNextRoad,
+        PathIntersection
     }
     public abstract class CarSpeedProvider : MonoBehaviour
     {

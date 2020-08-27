@@ -33,9 +33,18 @@ namespace Roads
 
     public class AdvancedPathFolower : MonoBehaviour
     {
+        /// <summary>
+        /// Position offset of the object from the path
+        /// </summary>
         public Vector3 PositionOffset;
+        /// <summary>
+        /// Rotation offset of the object from the path
+        /// </summary>
         public Vector3 RotationOffset;
         private RoadTravel _travel;
+        /// <summary>
+        /// The current <see cref="RoadTravel"/>
+        /// </summary>
         public virtual RoadTravel Travel
         {
             get => _travel;
@@ -56,16 +65,43 @@ namespace Roads
                 OnTravelChanged();
             }
         }
+        /// <summary>
+        /// The initial <see cref="Road"/> of the path folower
+        /// </summary>
         public Road InitialRoad;
+        /// <summary>
+        /// Current speed
+        /// </summary>
         public float speed = 5;
+        /// <summary>
+        /// Probability to change lanes if possible
+        /// </summary>
         [Range(0, 1)]
         public float LaneChangeProbability = 0.2f;
+        /// <summary>
+        /// The road choosing behaviour
+        /// </summary>
         public IChooseRoadBehaviour ChooseRoadBehaviour = new RandomPathBehaviour();
+        /// <summary>
+        /// The lane changing behaviour
+        /// </summary>
         public AdvancedRoadChangeBehaviour ChangeBehaviour;
 
+        /// <summary>
+        /// If a lane change is planned
+        /// </summary>
         internal bool _changingLanes = false;
+        /// <summary>
+        /// The distance at which the lane change is going to be if one is planned
+        /// </summary>
         protected float? _laneChangeDistance = null;
+        /// <summary>
+        /// If changing to the left lane is planned
+        /// </summary>
         private bool _changeLaneLeftQueued = false;
+        /// <summary>
+        /// If changing to the left lane is planned
+        /// </summary>
         protected virtual bool changeLaneLeftQueued
         {
             get => _changeLaneLeftQueued;
@@ -78,7 +114,13 @@ namespace Roads
                 _changeLaneLeftQueued = value;
             }
         }
+        /// <summary>
+        /// If changing to the left lane is planned
+        /// </summary>
         private bool _changeLaneRightQueued = false;
+        /// <summary>
+        /// If changing to the left lane is planned
+        /// </summary>
         protected virtual bool changeLaneRightQueued 
         {
             get => _changeLaneRightQueued;
@@ -92,8 +134,17 @@ namespace Roads
             }
         }
 
+        /// <summary>
+        /// The travel plan of the path follower
+        /// </summary>
         public Queue<RoadTravel> TravelPlan = new Queue<RoadTravel>();
+        /// <summary>
+        /// The event for travels being changed
+        /// </summary>
         public RoadTravelChangeEventHandler TravelChanged;
+        /// <summary>
+        /// The side of the lane that has been selected
+        /// </summary>
         private bool _laneSide;
 
         protected virtual void OnTravelChanged()
@@ -109,6 +160,9 @@ namespace Roads
             handler?.Invoke(this, new RoadTravelChangeEventArgs(Travel));
         }
 
+        /// <summary>
+        /// Used to auto plan the next road
+        /// </summary>
         public virtual void PlanRoadChange()
         {
             RandomLaneChange(LaneChangeProbability);
@@ -118,6 +172,10 @@ namespace Roads
             }
         }
 
+        /// <summary>
+        /// Randomly change lane
+        /// </summary>
+        /// <param name="probability">Probability of changing lanes</param>
         protected virtual void RandomLaneChange(float probability)
         {
             if (UnityEngine.Random.value < probability)
@@ -146,17 +204,29 @@ namespace Roads
             }
         }
 
+        /// <summary>
+        /// Changes the travle to the next planned travel if any
+        /// </summary>
         void NextTravel()
         {
             if (TravelPlan.Count > 0) Travel = TravelPlan.Dequeue();
         }
 
+        /// <summary>
+        /// Moves the folower
+        /// </summary>
+        /// <param name="pos">New position</param>
+        /// <param name="rotation">New rotation</param>
         protected virtual void Move(Vector3 pos, Quaternion rotation)
         {
             transform.position = pos;
             transform.rotation = rotation;
         }
 
+        /// <summary>
+        /// Plan a lane change
+        /// </summary>
+        /// <param name="left">Direction</param>
         protected virtual void LaneChange(bool left)
         {
             if (_laneChangeDistance != null)
@@ -176,6 +246,9 @@ namespace Roads
             Travel = new RoadTravel(InitialRoad);
         }
 
+        /// <summary>
+        /// Updates the folowers position and rotation
+        /// </summary>
         public virtual void BasicUpdate()
         {
             if (Travel != null)

@@ -8,6 +8,9 @@ namespace Assets.DataBinding
 {
     public interface IDataBinder
     {
+        /// <summary>
+        /// Unbind the data and UI representations
+        /// </summary>
         void Unbind();
     }
 
