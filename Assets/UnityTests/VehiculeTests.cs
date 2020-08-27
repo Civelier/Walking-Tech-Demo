@@ -20,9 +20,22 @@ namespace UnityTests
             AddTest(TestCarMovementInfoDistance, "Test CarMovementInfo distance");
             AddTest(TestCarMovementInfoBehind, "Test CarMovementInfo behind");
             AddTest(TestCarMovementInfoRelativeDistance, "Test CarMovementInfo relative distance");
+            AddTest(TestLineCross, "Test line cross");
             RunTests();
         }
 #endif
+
+        IEnumerator<bool?> TestLineCross()
+        {
+            var a1 = new Vector2(1, 1);
+            var a2 = new Vector2(6, 5);
+            var b1 = new Vector2(1, 3);
+            var b2 = new Vector2(8, 3);
+            var success = PathUtilities.DoVectorsCross(a1, a2, b1, b2, out Vector2 result);
+            success.ShouldBeTrue();
+            result.ShouldBeEqual(new Vector2(3.5f, 3));
+            yield return true;
+        }
 
         IEnumerator<bool?> TestCarMovementInfoEquals()
         {

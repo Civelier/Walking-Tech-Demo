@@ -164,11 +164,6 @@ namespace Roads
         {
         }
 
-        bool PathsIntersect(CarMovement other)
-        {
-            throw new NotImplementedException();
-        }
-
         IEnumerable<CarMovementInfo> GetNearbyCars()
         {
             List<CarMovementInfo> carInfos = new List<CarMovementInfo>();

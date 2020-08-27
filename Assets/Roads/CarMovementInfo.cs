@@ -88,6 +88,11 @@ namespace Roads
                 return;
             }
             else distance += Parent.Travel.DistanceRemaining;
+            if (PathIntersects(CarMove.Travel))
+            {
+                IsOnPath = true;
+                return;
+            }
             foreach (var travel in Parent.TravelPlan)
             {
                 if (travel != null)
@@ -109,6 +114,11 @@ namespace Roads
             IsOnPath = false;
             _lastActualDistance = _lastCalculatedQuickDistance;
             IsValid = false;
+        }
+
+        bool PathIntersects(RoadTravel otherTravel)
+        {
+            return PathUtilities.DoRoadsCrossXZ(Parent.Travel, otherTravel);
         }
 
         public bool Equals(CarMovementInfo other)
