@@ -19,7 +19,7 @@ namespace Roads
         public CarCollider ChangeLaneRight;
         public CarCollider Car;
         public Rigidbody Body;
-        public CarSpeedProvider SpeedProvider;
+        public AnticipatingLaneCarSpeedProvider SpeedProvider;
         [Range(0, 1)]
         public float Anticipation = 0.8f;
 
@@ -29,7 +29,7 @@ namespace Roads
             if (InitialRoad == null) InitialRoad = GetComponent<PathRoadLayout>();
             if (Body == null) Body = GetComponent<Rigidbody>();
             if (Car == null) Car = GetComponent<CarCollider>();
-            if (SpeedProvider == null) SpeedProvider = GetComponent<CarSpeedProvider>();
+            if (SpeedProvider == null) SpeedProvider = GetComponent<AnticipatingLaneCarSpeedProvider>();
             Travel = new RoadTravel(InitialRoad);
             SpeedProvider.Acceleration = Acceleration;
             SpeedProvider.Anticipation = Anticipation;

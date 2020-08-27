@@ -118,7 +118,7 @@ namespace Roads
 
         bool PathIntersects(RoadTravel otherTravel)
         {
-            return PathUtilities.DoRoadsCrossXZ(Parent.Travel, otherTravel);
+            return PathUtilities.DoRoadsCrossXZ(Parent.Travel, otherTravel, Parent.SpeedProvider.ScanDistanceFront);
         }
 
         public bool Equals(CarMovementInfo other)
